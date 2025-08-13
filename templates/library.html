@@ -18,10 +18,12 @@
     </header>
     <main>
     <div class="game-grid">
+        {% for game in games %}
         <div class="game-card">
-            <img src="{{ url_for('static', filename='images/hzd.jpg') }}" alt="Game 1">
-            <h3>Horizon Zero Dawn - Complete Edition</h3>
+            <img src="{{ url_for('static', filename='images/' ~ game['img_path']) }}"> <!-- ~ is used for concatenating strings (jinja flask)-->
+            <h3>{{game['name']}}</h3>
         </div>
+        {% endfor %}
     </div>
 </main>
     <footer>
