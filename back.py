@@ -49,10 +49,9 @@ def searchAPI():
 def search():
     conn = get_db_connection()
     game_name = request.args.get("q", "")
-    print(game_name)
     games = conn.execute('SELECT * FROM all_games WHERE name LIKE ?', ('%' + game_name + '%',)).fetchall()  # fetch all rows
     conn.close()
-    return render_template("library.html",games=games)
+    return render_template("library.html",games=games,q=game_name)
 
 if __name__ == '__main__':
     app.run(debug=True)

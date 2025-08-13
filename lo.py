@@ -21,6 +21,6 @@ def search_and_get_details(search_name, cc="us"):
     return results
 
 # Example usage
-games = search_and_get_details("call of duty black ops")
+games = search_and_get_details("horizon")
 for g in games:
     print(g)

@@ -125,14 +125,22 @@ main
     margin: 10px;
     font-size: 15px;
     color: #e0e0e0;
+    white-space: nowrap;        /* Prevent text from wrapping */
+    overflow: hidden;           /* Hide overflowed text */
+    text-overflow: ellipsis;    /* Show "..." if text is too long */
 }
 
-/* .game-card p {
-    margin: 0 10px 10px;
-    font-size: 14px;
-    color: #999999;
-} */
-
+.game-card h2 {
+   font-family: 'Electrolize', sans-serif; /* A sharp, tech-inspired font */
+  font-size: 26px;
+  color: #00e6e6; /* A cyan blue for a digital feel */
+  text-shadow: 0 0 5px rgba(0, 230, 230, 0.7); /* A subtle glow effect */
+  background: linear-gradient(to right, rgba(0, 230, 230, 0.1), transparent); /* A faded background highlight */
+  padding-left: 10px;
+  border-left: 2px solid #00e6e6; /* A sharp line accent */
+  margin: 10px;
+  text-transform: uppercase;
+}
 
 body {
     margin: 0;
