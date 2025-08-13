@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game Paradise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='library.css') }}">
+</head>
+<body>
+    <header>
+        <div id ="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise</div>
+        <nav>
+            <a href="#">Store</a>
+            <a href="#">Library</a>
+            <a href="#">Log In</a>
+            <a href="#" style="margin-right: 15px;">Cart</a>
+        </nav>
+    </header>
+    <main>
+    <div class="game-grid">
+        <div class="game-card">
+            <img src="{{ url_for('static', filename='images/hzd.jpg') }}" alt="Game 1">
+            <h3>Horizon Zero Dawn - Complete Edition</h3>
+        </div>
+    </div>
+</main>
+    <footer>
+        © 2025 Game Paradise. All rights reserved.
+    </footer>
+</body>
+</html>
