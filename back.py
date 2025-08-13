@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 import sqlite3
 import requests
 
@@ -25,8 +25,7 @@ def search_and_get_details(search_name, cc="us"):
         results.append({
             "id": item.get("id"),
             "name": item.get("name"),
-            "price": item.get("price", {}).get("final_formatted", "N/A"),
-            "thumbnail": item.get("header_image"),
+            "price": item.get("price", {}).get("final", "N/A"),
             "type": item.get("type")
         })
 
@@ -40,6 +39,14 @@ def home():
     games = conn.execute('SELECT * FROM all_games').fetchall()  # fetch all rows
     conn.close()
     return render_template("library.html",games=games)
+
+@app.route('/search', methods=["POST"])
+def search():
+    data = request.get_json()
+    game_name = data.get("game", "")
+    for i in search_and_get_details(game_name):
+        print(i)
+    return "" # you always must return a value in flask
 
 if __name__ == '__main__':
     app.run(debug=True)

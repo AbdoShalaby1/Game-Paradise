@@ -9,6 +9,22 @@
 <body>
     <header>
         <div id ="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise</div>
+        <input type="text" id="game">
+        <script>
+            document.getElementById("game").addEventListener("keydown", function(event) {
+                if (event.key === "Enter") 
+                {
+                    fetch( // Sends a request to the backend (changes active action to search)
+                        "/search",
+                         {
+                            method: "POST", // send data
+                            headers: { "Content-Type": "application/json" }, // JSON type
+                            body: JSON.stringify({ game: this.value }) // convert JS to JSON
+                        }
+                        )
+                }
+            });
+            </script>
         <nav>
             <a href="#">Store</a>
             <a href="#">Library</a>
