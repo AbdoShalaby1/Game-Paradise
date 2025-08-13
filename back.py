@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,jsonify
 import sqlite3
 import requests
 
@@ -9,8 +9,6 @@ def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row  # allows dict-like access
     return conn
-
-import requests
 
 def search_and_get_details(search_name, cc="us"):
     search_url = f"https://store.steampowered.com/api/storesearch?term={search_name}&cc={cc}"
@@ -40,13 +38,22 @@ def home():
     conn.close()
     return render_template("library.html",games=games)
 
-@app.route('/search', methods=["POST"])
-def search():
+@app.route('/searchAPI', methods=["POST"])
+def searchAPI():
     data = request.get_json()
     game_name = data.get("game", "")
-    for i in search_and_get_details(game_name):
-        print(i)
-    return "" # you always must return a value in flask
+    return jsonify(search_and_get_details(game_name))
+
+
+@app.route('/search', methods=["POST","GET"])
+def search():
+    conn = get_db_connection()
+    game_name = request.args.get("q", "")
+    print(game_name)
+    games = conn.execute('SELECT * FROM all_games WHERE name LIKE ?', ('%' + game_name + '%',)).fetchall()  # fetch all rows
+    conn.close()
+    return render_template("library.html",games=games)
 
 if __name__ == '__main__':
     app.run(debug=True)
+ 
