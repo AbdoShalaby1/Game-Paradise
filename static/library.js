@@ -15,26 +15,32 @@ function searchAPI() {
 }
 
 function initSlider() {
-    const slides = document.querySelectorAll('.slide');
-    let index = 0;
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    const slidesContainer = document.querySelector(".slides");
 
-    function showSlide(i) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        slides[i].classList.add('active');
+    function showSlide(index) {
+        currentIndex = (index + slides.length) % slides.length;
+        slidesContainer.style.transform = `translateX(${-currentIndex * 1200}px)`;
     }
 
-    document.querySelector('.next').addEventListener('click', () => {
-        index = (index + 1) % slides.length;
-        showSlide(index);
+    document.querySelector(".next").addEventListener("click", () => {
+        showSlide(currentIndex + 1);
+    });
+    document.querySelector(".prev").addEventListener("click", () => {
+        showSlide(currentIndex - 1);
     });
 
-    document.querySelector('.prev').addEventListener('click', () => {
-        index = (index - 1 + slides.length) % slides.length;
-        showSlide(index);
-    });
-
-    showSlide(index); // show first image initially
-}
+    setInterval(() => showSlide(currentIndex + 1), 5000);
     
-window.addEventListener('DOMContentLoaded', initSlider);
+    if (activeUser == "")
+    {
+        document.querySelector("nav").insertAdjacentHTML("beforeend",'<input type="button" onclick="return false;" id = "loginBtn" value="Log In/Sign Up">');
+    }
+    else
+    {
+        document.querySelector("nav").insertAdjacentHTML("beforeend",`<span id="welcome">Welcome! ${activeUser} </span> <input type="button" onclick="return false;" id = "logoutBtn" value="Log Out">`); // span is inline div
+    }
+}
 
+window.addEventListener('DOMContentLoaded', initSlider);

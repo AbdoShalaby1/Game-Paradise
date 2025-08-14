@@ -8,6 +8,7 @@
     <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
     <title>Game Paradise</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='library.css') }}">
+    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
 </head>
 
 <body>
@@ -32,8 +33,7 @@
         <nav>
             <a href="/">Store</a>
             <a href="#">Library</a>
-            <a href="#">Log In</a>
-            <a href="#" style="margin-right: 30px;">Cart</a>
+            <a href="#" >Cart</a>
         </nav>
     </header>
 

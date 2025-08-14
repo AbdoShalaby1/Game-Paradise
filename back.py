@@ -3,6 +3,7 @@ import sqlite3
 import requests
 
 DATABASE = 'store.db'
+activeUser = "Abdo Shalaby"
 app = Flask(__name__)
 
 def get_db_connection():
@@ -36,7 +37,7 @@ def home():
     conn = get_db_connection()
     games = conn.execute('SELECT * FROM all_games').fetchall()  # fetch all rows
     conn.close()
-    return render_template("library.html",games=games)
+    return render_template("library.html",games=games,activeUser=activeUser)
 
 @app.route('/searchAPI', methods=["POST"])
 def searchAPI():
