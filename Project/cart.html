@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="cart.css">
+    
+    <header>
+        <div id ="brandName"><img src="Images/brand.png" id="logo">Game Paradise</div>
+        <nav>
+            <a href="#">Store</a>
+            <a href="#">Library</a>
+            <a href="#">Log In</a>
+            <a href="#" style="margin-right: 15px;">Cart</a>
+        </nav>
+    </header>
+    <body>
+        <main class="cart-container">
+            <section class="cart-items">
+                <h2>Your Cart Items</h2>
+                <div class="cart-item">
+                    <img src="Images/rdr2.jpg" alt="rdr2">
+                    <div class="item-details">
+                        <h3>Red Dead Redemption 2</h3>
+                        <p class="price">$59.99</p>
+                        <button class="remove-btn">remove</button>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <img src="Images/hzd.jpg" alt="rdr2">
+                    <div class="item-details">
+                        <h3>Horizon Zero Dawn (Complete Edition)</h3>
+                        <p class="price">$59.99</p>
+                        <button class="remove-btn">remove</button>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <img src="Images/codbo6.jpg" alt="rdr2">
+                    <div class="item-details">
+                        <h3>Call Of Duty Black Ops 6</h3>
+                        <p class="price">$59.99</p>
+                        <button class="remove-btn">remove</button>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <img src="Images/nfsh.jpg" alt="rdr2">
+                    <div class="item-details">
+                        <h3>Need For Speed Heat</h3>
+                        <p class="price">$59.99</p>
+                        <button class="remove-btn">remove</button>
+                    </div>
+                </div>
+            </section>
+            <aside class="cart-summary">
+                <h2>Order Summary</h2>
+                <p>Total : <span class="total-price">$239.96</span></p>
+                <button class="checkout-btn">checkout</button>
+                <div class="user-balance">
+                    <p>Balance: <span class="balance-amount">$0.00</span></p>
+                    <input type="number" class="funds-input" placeholder="Enter amount" min="1">
+                    <button class="add-funds-btn">Add Funds</button>
+                </div>
+
+                <div class="coupon-section">
+                    <label for="coupon">Have a coupon?</label>
+                    <div class="coupon-input">
+                        <input type="text" id="coupon" placeholder="Enter Code">
+                        <button class="apply-coupon-btn">Apply</button>
+                    </div>
+                </div>
+                <div class="recommended-games">
+                        <h3>Recommended for you</h3>
+                        <div class="recommended-row">
+                            <div class="recommend-card">
+                                <img src="Images/Spider-Man_PS4_cover.jpg" alt="Spider-Man">
+                                <div class="recommend-info">
+                                    <p>Marvel Spider-Man</p>
+                                    <span>$29.99</span>
+                                    <a href="#" class="view-btn">View Game</a>
+                                </div>
+                            </div>
+                            <div class="recommend-card">
+                                <img src="Images/Ghost_of_Tsushima.jpg" alt="Ghost_of_Tsushima">
+                                <div class="recommend-info">
+                                    <p>Ghost of Tsushima</p>
+                                    <span>$39.99</span>
+                                    <a href="#" class="view-btn">View Game</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </aside>
+        </main>
+        <footer>
+            © 2025 Game Paradise. All rights reserved.
+        </footer>
+        <script src="cart.js"></script>
+    </body>
+</html>
