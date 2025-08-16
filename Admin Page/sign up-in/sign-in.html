@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Login</title>
+    <link rel="stylesheet" href="sign-in.css"> <!-- css file named sign-in.css -->
+</head>
+<body>
+  <div class="login-container"><!-- containing the title,form,login-btn and signup page-->
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email" required>
+        <div class="error" id="emailError">Please enter a valid email</div>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password" required>
+        <div class="error" id="passwordError">Password must be at least 6 characters</div>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+   <p>Don’t have an account? <a href="sign-up.html" style="color:#007bff; text-decoration:none;">Sign up</a></p>  </div>
+<!--js code and validations-->
+  <script>
+    //preparing the variables
+    const form = document.getElementById("loginForm");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    form.addEventListener("submit", function (e) {
+      let valid = true;
+
+      //email validation by regex
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!email.value.match(emailPattern)) {
+        emailError.style.display = "block";
+        valid = false;
+      } else {
+        emailError.style.display = "none";
+      }
+
+      // Password validation by length
+      if (password.value.length < 6) {
+        passwordError.style.display = "block";
+        valid = false;
+      } else {
+        passwordError.style.display = "none";
+      }
+      if (!valid) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
