@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="{{ url_for('static', filename='store.js') }}"></script>
+    <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
+    <title>Game Paradise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='store.css') }}">
+    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+</head>
+    
+<body>
+    <header>
+        <a href="/">
+            <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise
+            </div>
+        </a>
+        <div id="searchDiv">
+            <form id="searchForm" action="/search" method="get">
+                <input type="text" id="searchBox" placeholder="Search..." name="q" value="{{q}}">
+
+                <button type="submit" id="searchBtn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <nav>
+            <a href="/">Store</a>
+            <a href="#">Library</a>
+            <a href="/cart" >Cart</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="slider">
+            <div class="slides">
+                <div class="slide active">
+                    <img src="{{ url_for('static', filename='images/slider1.jpg') }}"> <!--this is part of 2 classes-->
+                    <div class="slideText">
+                        <h1>Welcome to Game Paradise!</h1>
+                        <p>It is your ultimate destination for all things gaming! Discover the
+                            latest releases, timeless classics, and hidden gems across every genre. Whether you’re a
+                            hardcore gamer or just starting your journey, our store is packed with exciting adventures,
+                            thrilling challenges, and endless fun waiting for you.
+
+                        </p>
+                    </div>
+                </div>
+                <div class="slide"> 
+                    <img src="{{ url_for('static', filename='images/fps.jpg') }}">
+                    <div class="slideText">
+                        <h1>Explore the Best FPS Games</h1>
+                        <p>Step into the action with the most thrilling first-person shooters on the market. From
+                            intense
+                            tactical battles to fast-paced adrenaline-pumping campaigns, these games put you right in
+                            the heart
+                            of the fight. Whether you prefer strategic team-based warfare or solo missions against
+                            hordes of
+                            enemies, our curated collection of FPS titles offers something for every type of shooter
+                            fan.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="{{ url_for('static', filename='images/horror.jpg') }}">
+                    <div class="slideText">
+                        <h1>Explore the Best Horror Games</h1>
+                        <p>Dive into the world of horror games, where every shadow and sound keeps you on edge. From
+                            survival horror classics to modern psychological thrillers, these games put you in
+                            terrifying environments filled with dark secrets and lurking monsters. Solve puzzles, manage
+                            limited resources, and face the unknown as you experience adrenaline-filled moments that
+                            will make you think twice before turning off the lights.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <img src="{{ url_for('static', filename='images/rpg.png') }}">
+                    <div class="slideText">
+                        <h1>Explore the Best RPG Games</h1>
+                        <p>Step into the world of RPG games, where adventure, strategy, and storytelling come together.
+                            Explore vast lands, meet memorable characters, and make choices that shape your journey.
+                            Level up your skills, tackle challenging quests, and uncover hidden treasures as you immerse
+                            yourself in rich, dynamic worlds that reward curiosity and creativity.
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+            <button class="prev">&#10094;</button>
+            <button class="next">&#10095;</button>
+        </div>
+        <div class="game-grid">
+            {% for game in games %}
+            <div class="game-card">
+                <img src="{{ url_for('static', filename=game['img_path']) }}">
+                <!-- ~ is used for concatenating strings (jinja flask)-->
+                <h3>{{game['name']}}</h3>
+                <h2>${{game['price'] / 100}}</h2>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <footer>
+        © 2025 Game Paradise. All rights reserved.
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='info.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='store.css') }}">
+    <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
+    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+    <script src="{{ url_for('static', filename='info.js') }}"></script>
+</head>
+
+<body>
+    <div>
+        <header>
+            <a href="/">
+                <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game
+                    Paradise
+                </div>
+            </a>
+            <div id="searchDiv">
+                <form id="searchForm" action="/search" method="get">
+                    <input type="text" id="searchBox" placeholder="Search..." name="q" value="{{q}}">
+
+                    <button type="submit" id="searchBtn" aria-label="Search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <nav>
+                <a href="/">Store</a>
+                <a href="#">Library</a>
+                <a href="/cart">Cart</a>
+            </nav>
+        </header>
+    </div>
+
+
+    <div id="main">
+        <div id="upper-part">
+            <br><br>
+            <h1>{{game['name']}}</h1>
+            <div>
+                <span>{{(game['rating'] / 20) | round(1)}} <span class="stars"></span> </span>
+                <script>percentageToStars({{ game['rating']}});</script>
+                <span>🎮 {{game['genre1']}}</span>
+                <span>🎮 {{game['genre2']}}</span>
+            </div>
+        </div>
+
+        <div>
+            <hr>
+            <div id="cont-wrapper">
+                <div id="screenshots">
+                    <iframe id="screenshot-video" 
+                                width="500" 
+                                height="281" 
+                                src="https://www.youtube.com/embed/{{trailer}}?autoplay=1&mute=1&controls=1" 
+                                frameborder="0" 
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen>
+                        </iframe>
+
+                    <img id="screenshot-img" src="{{ url_for('static', filename=screenshots[0]['img_path']) }}"
+                    width="500">
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+                </div>
+
+                <script id="screenshot-data" type="application/json">
+                    {{ screenshots | tojson }}</script>
+
+                <script>document.querySelector("#main").style.backgroundImage = "linear-gradient({{bgColor}}99, #000000)"</script>
+
+
+                <div id="info-container">
+                    <!-- vscode-ignore -->
+                    <div class="image-swap" role="img" aria-label="template poster"
+                        style="background-image: url('{{ url_for('static', filename=game['img_path']) }}');"></div>
+                    <p>${{game['price'] / 100}}</p>
+                    <button id="B">Buy Now</button>
+                    <button id="A" onclick="addToCart()">Add To Cart</button>
+                    <button id="A">Add To Wishlist</button>
+                </div>
+            </div>
+
+            <hr>
+        </div>
+
+        <div id="dis">
+            <h3>About the Game</h3>
+            <hr>
+            <p>{{game['description'] | safe}}</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            <div style="flex: 1;">
+                <p style="text-align: center; font-size: 30px;">User Rating</p>
+                <p style="text-align: center; font-size: 25px;">{{(game['rating'] / 20) | round(1)}} <span
+                        class="stars"></span></p>
+                <script>percentageToStars({{ game['rating']}});</script>
+            </div>
+        </div>
+        <div style="display:flex ; align-items: center; justify-content: center; flex-direction: row; gap: 100px">
+            <p
+                style="background-color: #292929; text-align: center; font-size: 25px; padding: 30px; border-radius: 8px;">
+                🎮 {{game['genre1']}}</p>
+            <p
+                style="background-color: #292929; text-align: center; font-size: 25px; padding: 30px; border-radius: 8px;">
+                🎮 {{game['genre2']}}</p>
+        </div>
+
+        <div id="requirements">
+            <h3>System Requirements</h3>
+            <hr>
+            <br>
+            <div class="min-rec-div">
+                <div style="display: flex; flex-direction:column; width: 50%">{{game['min_requirements'] | safe}}</div>
+                <div style="display: flex; flex-direction:column; width: 50%">{{game['rec_requirements'] | safe}}</div>
+            </div>
+
+            <span>Languages Supported</span><br>
+            {{game['langs'] | safe}}
+            </p><br> <br>
+            <span>{{game['trademark'] | safe}}</span>
+        </div>
+
+        <p style="text-align: center; margin: 0%;">WE ARE BETTER THAN THE WATER GAS AND RARE GAMES</p>
+    </div>
+
+
+    <footer>
+        <div id="bef-end">
+            <br>
+            <h2>STORE</h2>
+            <hr>
+            <table>
+                <tr>
+                    <th>Games</th>
+                    <th>Developers</th>
+                    <th>Tools</th>
+                    <th>Company</th>
+                </tr>
+                <tr>
+                    <td><a href="#">Marvel’s Spider-Man</a></td>
+                    <td><a href="#">Abdo A.Shalaby</td>
+                    <td><a href="#">Unreal Engine</a></td>
+                    <td><a href="#">About</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">Rematch</a></td>
+                    <td><a href="#">Kareem Maged</td>
+                    <td><a href="#">UFEN</a></td>
+                    <td><a href="#">Newsroom</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">Call of Duty®</a></td>
+                    <td><a href="#">Abo Zahra</td>
+                    <td><a href="#">MetaHuman</a></td>
+                    <td><a href="#">Careers</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">Pubg Mobile</a></td>
+                    <td><a href="#">Ahmed Amr</td>
+                    <td><a href="#">Megascans</a></td>
+                    <td><a href="#">Students</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">Roct league</a></td>
+                    <td><a href="#">Omar Mohamed</td>
+                    <td><a href="#">Rad Game Tools</a></td>
+                    <td><a href="#">UX Research</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <diV id="end">
+            <span>© 2025 Game Paradise. All rights reserved.</span>
+        </diV>
+    </footer>
+
+</body>
+
+
+</html>

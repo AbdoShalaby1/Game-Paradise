@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xbox Games Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">Paradise Admin</div>
+        <nav>
+            <ul>
+                <li class="active" data-section="games">Manage Games</li>
+                <li data-section="orders">Manage Orders</li>
+                <li data-section="users">Manage Users</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h1 id="sectionTitle">Manage Games</h1>
+        </header>
+
+        <!-- Games Section -->
+         <section id="games" class="section active">
+    <!-- Manual Add/Modify -->
+    <div class="form-container">
+        <h2>Add / Modify Game</h2>
+        <input type="text" id="gameName" placeholder="Game Name">
+        <input type="text" id="gameDesc" placeholder="Game Description">
+        <input type="number" id="gamePrice" placeholder="Price ($)">
+        <input type="number" id="gameQuantity" placeholder="Quantity">
+        <button id="saveBtn" onclick="addGame()">Save Game</button>
+    </div>
+
+    <!-- Search to Add -->
+    <div class="form-container">
+        <h2>Search to Add a Game</h2>
+        <input type="text" id="searchGameName" placeholder="Search Game Name">
+        <button onclick="addSearchGame()">Search</button>
+        <div id="searchResults"> </div>
+    </div>
+
+    <!-- Game List -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="gamesList"></tbody>
+    </table>
+</section>
+
+        <!--<section id="games" class="section active">
+            <div class="form-container">
+                <h2>Add / Modify Game</h2>
+                <input type="text" id="gameName" placeholder="Game Name">
+                <input type="text" id="gameDesc" placeholder="Game Description">
+                <input type="number" id="gamePrice" placeholder="Price ($)">
+                <input type="number" id="gameQuantity" placeholder="Quantity">
+                <button onclick="addGame()">Save Game</button>
+            </div>
+            <div class="form-container">
+                <h2>Search to add a Game</h2>
+                <input type="text" id="gameName" placeholder="Game Name">
+                <input type="text" id="gameDesc" placeholder="Game Description">
+                <input type="number" id="gamePrice" placeholder="Price ($)">
+                <input type="number" id="gameQuantity" placeholder="Quantity">
+                <button onclick="addGame()">Save Game</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="gamesList"></tbody>
+            </table>
+        </section>-->
+
+        <!-- Orders Section -->
+        <section id="orders" class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Game</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersList"></tbody>
+            </table>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users" class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersList"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
