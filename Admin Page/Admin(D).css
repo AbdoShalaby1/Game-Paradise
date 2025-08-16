@@ -1,0 +1,267 @@
+/* ========================
+   Global Styles
+======================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #121212, #181818);
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* ========================
+   Sidebar
+======================== */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #1e1e1e, #181818);
+  border-right: 1px solid #2a2a2a;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #00d4ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  padding: 12px 18px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: #bbb;
+  font-size: 0.95rem;
+}
+
+.sidebar nav ul li:hover {
+  background: rgba(0, 183, 255, 0.15);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.sidebar nav ul li.active {
+  background: linear-gradient(135deg, #00d4ff, #0077ff);
+  color: #121212;
+  font-weight: bold;
+}
+
+/* ========================
+   Main Content
+======================== */
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #00d4ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========================
+   Cards
+======================== */
+.card {
+  background: #1c1c1c;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.card-title {
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #00d4ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========================
+   Forms
+======================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field span {
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: #bbb;
+  font-weight: 500;
+}
+
+.field input {
+  padding: 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  background: #121212;
+  color: #e0e0e0;
+  transition: border 0.3s ease, background 0.3s ease;
+}
+
+.field input:focus {
+  border-color: #00bfff;
+  background: #1a1a1a;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 183, 255, 0.5);
+}
+
+/* ========================
+   Buttons
+======================== */
+.btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #00d4ff, #0077ff);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid #00bfff;
+  color: #00bfff;
+}
+
+.btn.ghost:hover {
+  background: linear-gradient(135deg, #00d4ff, #0077ff);
+  color: #fff;
+}
+
+/* Form actions align right */
+.form-actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* ========================
+   Searchbar
+======================== */
+.searchbar {
+  display: flex;
+  gap: 12px;
+}
+
+.searchbar input {
+  flex: 1;
+}
+
+/* ========================
+   Tables (Clean Style)
+======================== */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.table th {
+  background: #1e1e1e;
+  color: #00bfff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  background: #1a1a1a;
+  color: #ddd;
+  transition: background 0.3s ease;
+}
+
+.table tr:hover td {
+  background: #242424;
+}
+
+/* ========================
+   Empty State
+======================== */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.empty-state p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* ========================
+   Sections toggle
+======================== */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
