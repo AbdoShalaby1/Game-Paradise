@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Library - Game Paradise</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='library.css') }}">
+  <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+</head>
+<body>
+  <header>
+          <a href="/">
+              <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise
+              </div>
+          </a>
+          <div id="searchDiv">
+              <form id="searchForm" action="/search" method="get">
+                  <input type="text" id="searchBox" placeholder="Search..." name="q" value="{{q}}">
+  
+                  <button type="submit" id="searchBtn" aria-label="Search">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          viewBox="0 0 16 16">
+                          <path
+                              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      </svg>
+                  </button>
+              </form>
+          </div>
+          <nav>
+              <a href="/">Store</a>
+              <a href="/library">Library</a>
+              <a href="/cart" >Cart</a>
+          </nav>
+      </header>
+
+  <main class="library-container">
+    <section style="max-width:1100px; margin:20px auto;">
+      <h2 style="color:#dff3ff; margin-bottom:8px;">Your Owned Games</h2>
+      <p style="color:#99a3af; margin-bottom:18px;">Games you purchased will appear here. Click Play to launch or Details for more information.</p>
+
+      <div id="library-list" class="library-list" aria-live="polite">
+        <!-- JS will render cards here -->
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='library.js') }}"></script>
+</body>
+</html>

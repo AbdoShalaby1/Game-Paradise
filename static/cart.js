@@ -60,9 +60,11 @@ function initPage() {
             totalEl.textContent = "$0.00";
             cartItemsEl.innerHTML = `<h2 style="text-align:center; margin-top:20px;">Your cart is empty 🛒</h2>`;
             alert("Purchase successful! Enjoy your games 🎮");
+            checkout();
             selected = {
-                img_path: "all"
+                img_path: "all",
             };
+
             fetch("/removeFromCart", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -109,7 +111,10 @@ function initPage() {
     });
 
     if (activeUser == "") {
-        document.querySelector("nav").insertAdjacentHTML("beforeend", '<input type="button" onclick="return false;" id = "loginBtn" value="Log In/Sign Up">');
+        document.querySelector("nav").insertAdjacentHTML(
+                  "beforeend",
+                  "<input type='button' id='loginBtn' value='Log In/Sign Up' onclick=\"location.href='/login'\">"
+                );
     }
     else {
         document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span> <input type="button" onclick="return false;" id = "logoutBtn" value="Log Out">`); // span is inline div
@@ -151,6 +156,18 @@ function loadRecommendedGames() {
         `;
         recommendedRow.appendChild(card);
     });
+}
+
+
+function checkout()
+{
+    fetch("/api/library/bulk", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ items: cart })
+            })
 }
 
 document.addEventListener("DOMContentLoaded", () => {

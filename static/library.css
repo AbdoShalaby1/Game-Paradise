@@ -1,0 +1,253 @@
+/* Library Page Styles (dark, friendly) */
+#logo {
+  padding: 0px;
+  height: 65px;
+  width: 70px;
+}
+
+#brandName {
+  display: flex;
+  /*Flex makes the items line up horizontally*/
+  align-items: center;
+  gap: 15px;
+  color: #0e7eef;
+  font-size: 26px;
+  ;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+#brandName:hover {
+  color: #074b94;
+}
+
+header {
+  background-color: #2a2a2a;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #36393e;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav a
+
+/*links inside the navbar*/
+  {
+  color: #e0e0e0;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #0e7eef;
+}
+
+
+#searchDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+
+#searchForm {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #444;
+  box-shadow: none;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+
+#searchBox {
+  border: none;
+  outline: none;
+  width: 350px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #2c2c2e;
+  color: #f2f2f2;
+}
+
+#searchBox::placeholder {
+  color: #888;
+}
+
+#searchBtn {
+  border: none;
+  background-color: #36393e;
+  color: white;
+  padding: 0 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+#loginBtn {
+  margin-left: 80px;
+  margin-right: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #0056b3;
+  color: #e0e0e0;
+  border: 0px solid;
+  transition: background-color 0.2s ease;
+}
+
+#logoutBtn {
+  margin-right: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #0056b3;
+  color: #e0e0e0;
+  border: 0px solid;
+  transition: background-color 0.2s ease;
+}
+
+#welcome {
+  margin-left: 30px;
+  margin-right: 10px;
+  font-size: 16px;
+  padding: 10px;
+  color: #e0e0e0;
+  border: 0px solid;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 190px;
+  display: inline-block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  /* Show "..." if text is too long */
+}
+
+#loginBtn:hover,
+#logoutBtn:hover {
+  background-color: #023e7e;
+}
+
+#searchBtn:hover {
+  background-color: #0056b3;
+}
+
+:root {
+  --bg: #0f1115;
+  --panel: #151922;
+  --muted: #9aa4b2;
+  --text: #e5e7eb;
+  --brand1: #00d4ff;
+  --brand2: #0077ff;
+  --card: #171820;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #0f1115, #12151c);
+  color: var(--text);
+  font-family: Segoe UI, Tahoma, Arial, sans-serif;
+}
+
+.library-container {
+  padding: 28px 16px;
+}
+
+.library-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  background: #0b0b0b;
+}
+
+.card .info {
+  padding: 12px 14px;
+}
+
+.card .info h3 {
+  font-size: 1rem;
+  margin: 0 0 6px;
+}
+
+.card .info p {
+  font-size: .9rem;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+.card .actions {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: #11131a;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--brand1), var(--brand2));
+  color: white;
+  border: none;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.empty {
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed rgba(255, 255, 255, 0.02);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent);
+}
+
+@media (max-width:600px) {
+  .library-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

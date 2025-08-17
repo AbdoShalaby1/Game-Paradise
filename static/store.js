@@ -51,11 +51,21 @@ function initPage() {
     let intervalId = setInterval(() => showSlide(currentIndex + 1), 5000);
 
     if (activeUser == "") {
-        document.querySelector("nav").insertAdjacentHTML("beforeend", '<input type="button" onclick="return false;" id = "loginBtn" value="Log In/Sign Up">');
+        document.querySelector("nav").insertAdjacentHTML(
+          "beforeend",
+          "<input type='button' id='loginBtn' value='Log In/Sign Up' onclick=\"location.href='/login'\">"
+        );
     }
     else {
-        document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span> <input type="button" onclick="return false;" id = "logoutBtn" value="Log Out">`); // span is inline div
+        document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span> <input type="button" id = "logoutBtn" onclick = "logout()" value="Log Out">`); // span is inline div
     }
+}
+
+function logout()
+{
+    
+    fetch("/logout");
+    document.location.href = '/';
 }
 
 function info(card) { // img_path is the unique id

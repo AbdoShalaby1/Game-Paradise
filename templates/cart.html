@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='store.css') }}">
     <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+    <script>const cart = {{ cart | tojson }};</script>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
         </div>
         <nav>
             <a href="/">Store</a>
-            <a href="#">Library</a>
+            <a href="/library">Library</a>
             <a href="/cart">Cart</a>
         </nav>
     </header>

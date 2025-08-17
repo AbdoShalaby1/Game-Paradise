@@ -18,7 +18,7 @@ function initPage() {
     }
 
     prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + screenshots.length) % screenshots.length;
+        currentIndex = (currentIndex - 1 + screenshots.length) % (screenshots.length + 1);
         if (currentIndex == 0) {
             document.querySelector("#screenshot-img").style.display = "none";
             document.querySelector("#screenshots iframe").style.display = "block";
@@ -31,7 +31,7 @@ function initPage() {
     });
 
     nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % screenshots.length;
+        currentIndex = (currentIndex + 1) % (screenshots.length + 1);
         if (currentIndex == 0) {
             document.querySelector("#screenshot-img").style.display = "none";
             document.querySelector("#screenshots iframe").style.display = "block";
