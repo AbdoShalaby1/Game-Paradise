@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='sign-in.css')}}"> <!-- css file named sign-in.css -->
+    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>  
+    <script src="{{ url_for('static', filename='sign-in.js') }}"></script>
+</head>
+<body>
+  <header>
+          <a href="/">
+              <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise
+              </div>
+          </a>
+          <nav>
+              <a href="/">Store</a>
+              <a href="#">Library</a>
+              <a href="/cart" style="margin-right: 70px;">Cart</a>
+          </nav>
+      </header>
+  <div class="login-container"><!-- containing the title,form,login-btn and signup page-->
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="email">Email/Username</label>
+        <input id="email" placeholder="Enter email or username" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+   <p>Don’t have an account? <a href="/register" style="color:#007bff; text-decoration:none;">Sign up</a></p>  </div>
+<!--js code and validations-->
+</body>
+</html>

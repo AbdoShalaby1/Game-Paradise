@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="{{ url_for('static', filename='cart.js') }}"></script>
+    <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
+    <title>Game Paradise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='store.css') }}">
+    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+    <script>const cart = {{ cart | tojson }};</script>
+</head>
+
+<body>
+    <header>
+        <a href="/">
+            <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise
+            </div>
+        </a>
+        <div id="searchDiv">
+            <form id="searchForm" action="/search" method="get">
+                <input type="text" id="searchBox" placeholder="Search..." name="q" value="{{q}}">
+
+                <button type="submit" id="searchBtn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <nav>
+            <a href="/">Store</a>
+            <a href="/library">Library</a>
+            <a href="/cart">Cart</a>
+            <a href="/wishlist">Wishlist</a>
+            {% if activeUser %}
+                <span id="user-balance">${{ balance|round(2) }}</span>
+            {% endif %}
+        </nav>
+    </header>
+    <main class="cart-container">
+        <section class="cart-items">
+            <h2>Your Cart Items</h2>
+            {% for game in cart %}
+            <div class="cart-item">
+                <img src="{{ url_for('static', filename=game['img_path'])}}">
+                <div class="item-details">
+                    <h3>{{game['name']}}</h3>
+                    <p class="price">${{game['price']}}</p>
+                    <button class="remove-btn">Remove</button>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+        <aside class="cart-summary">
+            <h2>Order Summary</h2>
+            <p>Total : <span class="total-price">$239.96</span></p>
+            <button class="checkout-btn">Confirm</button>
+            <div class="user-balance">
+                <p>Balance: <span class="balance-amount">${{ balance|round(2) }}</span></p>
+                <input type="number" class="funds-input" placeholder="Enter Amount" min="1">
+                <button class="add-funds-btn">Add Funds</button>
+            </div>
+
+            <div class="coupon-section">
+                <label for="coupon">Have A Coupon?</label>
+                <div class="coupon-input">
+                    <input type="text" id="coupon" placeholder="Enter Code">
+                    <button class="apply-coupon-btn">Apply</button>
+                </div>
+            </div>
+            <div class="recommended-games">
+                <h3>Recommended for you</h3>
+                <div class="recommended-row">
+                    <div class="recommend-card">
+                        <img src="Images/Spider-Man_PS4_cover.jpg" alt="Spider-Man">
+                        <div class="recommend-info">
+                            <p>Marvel Spider-Man</p>
+                            <span>$29.99</span>
+                            <a href="#" class="view-btn">View Game</a>
+                        </div>
+                    </div>
+                    <div class="recommend-card">
+                        <img src="Images/Ghost_of_Tsushima.jpg" alt="Ghost_of_Tsushima">
+                        <div class="recommend-info">
+                            <p>Ghost of Tsushima</p>
+                            <span>$39.99</span>
+                            <a href="#" class="view-btn">View Game</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+    <footer>
+        © 2025 Game Paradise. All rights reserved.
+    </footer>
+</body>
+
+</html>

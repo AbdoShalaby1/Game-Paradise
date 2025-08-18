@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Sign Up</title>
+  <link rel="stylesheet" href="{{url_for('static',filename='sign-up.css')}}"> <!-- css file named sign-in.css -->
+  <script src="{{url_for('static',filename='sign-up.js')}}"></script>
+</head>
+
+<body>
+  <header>
+    <a href="/">
+      <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise
+      </div>
+    </a>
+    <nav>
+      <a href="/">Store</a>
+      <a href="#">Library</a>
+      <a href="/cart" style="margin-right: 70px;">Cart</a>
+    </nav>
+  </header>
+  <div class="signup-container"> <!-- containing the title,form,submit-btn and login page-->
+    <h2>Create Account</h2>
+    <form id="signupForm">
+      <div class="input-group">
+        <label for="firstName">Username</label>
+        <input type="text" id="firstName" placeholder="Username" required>
+        <div class="error" id="firstNameError">First name is required</div>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <div class="error" id="emailError">Please enter a valid email</div>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Password" required>
+        <div class="error" id="passwordError">Password must be at least 8 characters, have at least a number, a small case, a capital case and a special character</div>
+      </div>
+
+      <button type="submit" class="signup-btn">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login</a></p>
+  </div>
+</body>
+
+</html>

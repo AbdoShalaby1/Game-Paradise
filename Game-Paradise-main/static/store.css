@@ -1,0 +1,349 @@
+#logo
+{
+    padding: 0px;
+    height: 65px;
+    width: 70px;
+}
+
+#brandName {
+    display: flex; /*Flex makes the items line up horizontally*/
+    align-items: center;
+    gap: 15px;
+    color: #0e7eef;
+    font-size: 26px;;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+#brandName:hover
+{
+    color: #074b94;
+}
+
+header {
+    background-color: #2a2a2a;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #36393e;
+}
+
+a
+{
+    text-decoration: none;
+}
+nav a  /*links inside the navbar*/
+{ 
+    color: #e0e0e0;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav a:hover 
+{
+    color: #0e7eef;
+}
+
+
+#searchDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+
+#searchForm {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #444;
+    box-shadow: none;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+
+#searchBox {
+    border: none;
+    outline: none; 
+    width: 350px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #2c2c2e;
+    color: #f2f2f2;     
+}
+
+#searchBox::placeholder {
+    color: #888;
+}
+
+#searchBtn {
+    border: none;
+    background-color: #36393e;
+    color: white;
+    padding: 0 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+#loginBtn
+{
+    margin-left: 80px;
+    margin-right: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #0056b3;
+    color: #e0e0e0;
+    border: 0px solid;
+    transition: background-color 0.2s ease;
+}
+#logoutBtn
+{
+    margin-right: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #0056b3;
+    color: #e0e0e0;
+    border: 0px solid;
+    transition: background-color 0.2s ease;
+}
+
+#welcome
+{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    padding: 10px;
+    color: #e0e0e0;
+    border: 0px solid;
+    white-space: nowrap;   
+    overflow: hidden;
+    max-width: 190px;
+    display: inline-block;  
+    vertical-align: middle;
+    text-overflow: ellipsis;    /* Show "..." if text is too long */
+}
+
+#loginBtn:hover , #logoutBtn:hover
+{
+    background-color: #023e7e;
+}
+
+#searchBtn:hover {
+    background-color: #0056b3;
+}
+
+main
+{
+    flex: 1; /* Allow the area to grow/shrink to take the whole viewport*/
+    padding: 20px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+     /*Repeats the cards to fit the container, min is 200px per card, max to fill remaining area*/
+    gap: 20px;
+}
+
+.game-card {
+    background-color: #2a2a2a;
+    border: 1px solid #36393e;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.game-card img {
+    width: 100%;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.game-card h3 {
+    margin: 10px;
+    font-size: 15px;
+    color: #e0e0e0;
+    white-space: nowrap;   
+    overflow: hidden;  
+    text-overflow: ellipsis;    /* Show "..." if text is too long */
+}
+
+.game-card h2 {
+   font-family: 'Electrolize', sans-serif;
+  font-size: 20px;
+  color: #c2c2c2;
+  text-shadow: 0 0 5px rgba(0, 230, 230, 0.7);
+  background: linear-gradient(to right, rgba(0, 230, 230, 0.1), transparent); 
+  padding-left: 10px;
+  border-left: 2px solid #c2c2c2;
+  margin: 10px;
+  text-transform: uppercase;
+}
+
+.slider {
+    width: 1200px;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+
+.slide.active {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.slide.active h1
+{
+    margin-bottom: 40px;
+}
+
+.slide.active p
+{
+    font-size: 16px;        
+}
+
+.slideText
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.slides img {
+    width: 600px;
+    height: 350px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.slide {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: #00000059;
+    border-radius: 10px;
+    justify-content: center;
+    min-width: 1200px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.prev, .next {
+    position: absolute;
+    top: 16%;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    padding: 10px;
+    height: 350px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+    background-color: #1c1c1c;
+    color: #e0e0e0;
+    min-height: 100vh; /*Take 100% of the viewport*/
+}
+
+
+footer {
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 16px;
+    font-size: 15px;
+    border-top: 1px solid #36393e;
+    color: #999999;
+}
+
+#user-balance {
+    margin: 0 15px;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.wishlist-icon i {
+    color: white;
+    font-size: 16px;
+}
+
+.wishlist-icon:hover i {
+    color: #ff3366;
+}
+
+.wishlist-icon.active i {
+    color: #ff3366;
+}
+
+/* Wishlist button on info page */
+#add-to-wishlist {
+    background-color: #2a2a2a;
+    border: 1px solid #ff3366;
+    color: #ff3366;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+#add-to-wishlist:hover {
+    background-color: #ff3366;
+    color: white;
+}
