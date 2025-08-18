@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    background-color: #4e4e4e;
+    background-size: cover;
+    color: #ececec;
+    padding: 5% 10%;
+    margin: 0;
+}
+
+.main-content {
+    background-color: #36393e;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    gap: 30px;
+    margin: 3%;
+    padding: 2%;
+    border-radius: 10px;
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        border 0.4s ease;
+}
+
+.main-content:hover {
+    transform: scale(1.05);
+    background-color: #2a2a2a;
+    box-shadow: 0 0 15px #0056b3;
+}
+
+.image {
+    flex: 1;
+    border-radius: 5px;
+    aspect-ratio: 2 / 1;
+    width: 300px;
+    /* Game cover */
+    background-image: url("");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.image:hover {
+    animation: animi-img 10s 1;
+}
+
+@keyframes animi-img {
+
+    /* First Game Screenshoot */
+    25% {
+        background-image: url("");
+    }
+
+    /* Second Game Screenshoot */
+    50% {
+        background-image: url("");
+    }
+
+    /* Third Game Screenshoot */
+    75% {
+        background-image: url("");
+    }
+
+    /* Game cover */
+    100% {
+        background-image: url("");
+    }
+}
+
+a:hover {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.Game-info {
+    flex: 1.5;
+}
+
+.price-cart {
+    flex: 1;
+}
+
+.add {
+    border: none;
+    width: 60%;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: large;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.add:hover {
+    background-color: #00264d;
+    color: white;
+}
+
+.remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    color: white;
+    transition: 0.3s;
+}
+
+.remove:hover {
+    background-color: #00264d;
+    box-shadow: 0 0 10px #05c5f0;
+}
+
+footer {
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 16px;
+    font-size: 15px;
+    border-top: 1px solid #36393e;
+    color: #999999;
+}
