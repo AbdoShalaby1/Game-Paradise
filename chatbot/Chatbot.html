@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chatbot Widget</title>
+    <link rel="stylesheet" href="Chatbot.css">
+</head>
+
+<body>
+    <button id="chatbot-button" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
+        </svg>
+    </button>
+
+    <div>
+        <aside class="chatbot-panel" role="dialog">
+            <header class="cb-header">
+                <div class="cb-controls">
+                    <button id="cb-close" class="cb-button">✕</button>
+                    <button id="cb-clear" class="cb-button">clear</button>
+                </div>
+                <h3> Game paradise assistant </h3>
+            </header>
+
+            <main class="cb-messages"></main>
+
+            <form class="cb-input">
+                <textarea id="cb-text" placeholder="Write Your Question"></textarea>
+                <button class="send-btn" id="cb-send" type="submit">send</button>
+            </form>
+        </aside>
+    </div>
+    <script src="Chatbot.js"></script>
+</body>
+
+</html>
