@@ -96,8 +96,8 @@ def download_steam_image(url, filename=None):
         print("Error downloading image:", e)
         return None
                    
-def get_game_trailer(game_name):
-    query = urllib.parse.quote(f"{game_name} Gameplay Trailer")
+def get_game_trailer(game_name,type='Gameplay Trailer'):
+    query = urllib.parse.quote(f"{game_name} {type}")
     url = f"https://www.youtube.com/results?search_query={query}"
 
     headers = {

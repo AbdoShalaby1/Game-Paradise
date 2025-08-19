@@ -13,13 +13,13 @@ function initPage() {
         return hashHex;
     }
     form.addEventListener("submit", async function (e) {
+        e.preventDefault();
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         user = {
             name: email,
             password: await hashPassword(password)
         };
-        e.preventDefault();
         fetch("/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -27,7 +27,7 @@ function initPage() {
         }).then(res => res.text()).then(
             txt => {
                 if (txt === "True") {
-                    window.location.href = "/"
+                    window.location.href = link
                 } else {
                     document.getElementById("password").setCustomValidity("❌ Wrong username or password");
                     document.getElementById("password").reportValidity();

@@ -49,28 +49,30 @@ function initPage() {
 
 
     let intervalId = setInterval(() => showSlide(currentIndex + 1), 5000);
-
-    if (activeUser == "") {
-        document.querySelector("nav").insertAdjacentHTML(
-          "beforeend",
-          "<input type='button' id='loginBtn' value='Log In/Sign Up' onclick=\"location.href='/login'\">"
-        );
-    }
-    else {
-        document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span> <input type="button" id = "logoutBtn" onclick = "logout()" value="Log Out">`); // span is inline div
-    }
-}
-
-function logout()
-{
     
-    fetch("/logout");
-    document.location.href = '/';
 }
+
+
 
 function info(card) { // img_path is the unique id
     const imgPath = card.querySelector('img').getAttribute('src').replace("/static/", "");
     window.location.href = `/info?appid=${encodeURIComponent(imgPath.slice(7,-4))}`;
 }
 
+
+window.gameMap = {};
+
+window.loadLibrary = async function() {
+  const res = await fetch("/api/library");
+  const library = await res.json();
+
+  window.gameMap = {};
+  for (const g of library) {
+    window.gameMap[g.appid] = g;
+  }
+};
+
+
+
 window.addEventListener('DOMContentLoaded', initPage);
+

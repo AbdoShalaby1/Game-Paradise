@@ -163,13 +163,13 @@ button:not(#searchBtn) {
     color: black;
 }
 
-#A {
+.A {
     width: 80%;
     background-color: rgb(85, 85, 85);
     color: white;
 }
 
-#A:hover {
+.A:hover {
     background-color: gray;
 }
 

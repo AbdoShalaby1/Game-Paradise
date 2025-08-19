@@ -4,44 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>template</title>
+    <title>{{game['name']}}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='info.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='store.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
-    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+    <script>
+        const activeUser = JSON.parse('{{ activeUser | tojson}}');
+        q="";
+        balance = {{balance|round(2)}};
+        owned = {{owned | tojson}};
+        gameName = {{game['name'] | tojson}};
+    </script>
     <script src="{{ url_for('static', filename='info.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <div>
-        <header>
-            <a href="/">
-                <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game
-                    Paradise
-                </div>
-            </a>
-            <div id="searchDiv">
-                <form id="searchForm" action="/search" method="get">
-                    <input type="text" id="searchBox" placeholder="Search..." name="q" value="{{q}}">
-
-                    <button type="submit" id="searchBtn" aria-label="Search">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                    </button>
-                </form>
-            </div>
-            <nav>
-                <a href="/">Store</a>
-                <a href="#">Library</a>
-                <a href="/cart">Cart</a>
-            </nav>
-        </header>
-    </div>
-
-
+    <script src = "{{ url_for('static',filename='nav.js')}}"></script>
+    <script>initNav('active','active');</script>
     <div id="main">
         <div id="upper-part">
             <br><br>
@@ -83,10 +64,8 @@
                     <!-- vscode-ignore -->
                     <div class="image-swap" role="img" aria-label="template poster"
                         style="background-image: url('{{ url_for('static', filename=game['img_path']) }}');"></div>
-                    <p>${{game['price'] / 100}}</p>
-                    <button id="B">Buy Now</button>
-                    <button id="A" onclick="addToCart()">Add To Cart</button>
-                    <button id="A">Add To Wishlist</button>
+                    <p>EGP {{((game['price'] / 300) * 48) | round(2)}}</p>
+                    
                 </div>
             </div>
 
@@ -186,6 +165,6 @@
     </footer>
 
 </body>
-
+<script src="{{url_for('static',filename='nav.js')}}"></script>
 
 </html>

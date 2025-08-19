@@ -1,148 +1,165 @@
-/* Library Page Styles (dark, friendly) */
 #logo {
-  padding: 0px;
-  height: 65px;
-  width: 70px;
+    padding: 0px;
+    height: 65px;
+    width: 70px;
 }
 
 #brandName {
-  display: flex;
-  /*Flex makes the items line up horizontally*/
-  align-items: center;
-  gap: 15px;
-  color: #0e7eef;
-  font-size: 26px;
-  ;
-  font-weight: 600;
-  transition: color 0.3s ease;
+    display: flex;
+    /*Flex makes the items line up horizontally*/
+    align-items: center;
+    gap: 15px;
+    color: #0e7eef;
+    font-size: 26px;
+    ;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 #brandName:hover {
-  color: #074b94;
+    color: #074b94;
 }
 
 header {
-  background-color: #2a2a2a;
-  padding: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #36393e;
+    background-color: #2a2a2a;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #36393e;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 nav a
 
 /*links inside the navbar*/
-  {
-  color: #e0e0e0;
-  text-decoration: none;
-  margin-left: 20px;
-  font-weight: 600;
-  transition: color 0.3s ease;
+    {
+    color: #e0e0e0;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 nav a:hover {
-  color: #0e7eef;
+    color: #0e7eef;
 }
 
 
 #searchDiv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    margin-left: 10px;
 }
 
 
 #searchForm {
-  display: flex;
-  justify-content: center;
-  border: 1px solid #444;
-  box-shadow: none;
-  border-radius: 25px;
-  overflow: hidden;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #444;
+    box-shadow: none;
+    border-radius: 25px;
+    overflow: hidden;
 }
 
 
 #searchBox {
-  border: none;
-  outline: none;
-  width: 350px;
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #2c2c2e;
-  color: #f2f2f2;
+    border: none;
+    outline: none;
+    width: 200px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #2c2c2e;
+    color: #f2f2f2;
 }
 
 #searchBox::placeholder {
-  color: #888;
+    color: #888;
 }
 
 #searchBtn {
-  border: none;
-  background-color: #36393e;
-  color: white;
-  padding: 0 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease;
+    border: none;
+    background-color: #36393e;
+    color: white;
+    padding: 0 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
 }
 
 #loginBtn {
-  margin-left: 80px;
-  margin-right: 30px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #0056b3;
-  color: #e0e0e0;
-  border: 0px solid;
-  transition: background-color 0.2s ease;
+    margin-left: 80px;
+    margin-right: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #0056b3;
+    color: #e0e0e0;
+    border: 0px solid;
+    transition: background-color 0.2s ease;
 }
 
 #logoutBtn {
-  margin-right: 30px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #0056b3;
-  color: #e0e0e0;
-  border: 0px solid;
-  transition: background-color 0.2s ease;
+    margin-right: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #0056b3;
+    color: #e0e0e0;
+    border: 0px solid;
+    transition: background-color 0.2s ease;
 }
 
 #welcome {
-  margin-left: 30px;
-  margin-right: 10px;
-  font-size: 16px;
-  padding: 10px;
-  color: #e0e0e0;
-  border: 0px solid;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 190px;
-  display: inline-block;
-  vertical-align: middle;
-  text-overflow: ellipsis;
-  /* Show "..." if text is too long */
+    margin-left: 12px;
+    margin-right: 0px;
+    font-size: 16px;
+    padding: 10px;
+    color: #e0e0e0;
+    border: 0px solid;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 180px;
+    display: inline-block;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    /* Show "..." if text is too long */
+}
+
+#user-balance {
+    margin: 0 10px;
+    padding: 6px 9px;
+    background-color: #4CAF50;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    max-width: 105px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    text-overflow:clip;
 }
 
 #loginBtn:hover,
 #logoutBtn:hover {
-  background-color: #023e7e;
+    background-color: #023e7e;
 }
 
 #searchBtn:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
+
 
 :root {
   --bg: #0f1115;

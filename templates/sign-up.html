@@ -10,17 +10,8 @@
 </head>
 
 <body>
-  <header>
-    <a href="/">
-      <div id="brandName"><img src="{{ url_for('static', filename='images/brand.png') }}" id="logo">Game Paradise
-      </div>
-    </a>
-    <nav>
-      <a href="/">Store</a>
-      <a href="#">Library</a>
-      <a href="/cart" style="margin-right: 70px;">Cart</a>
-    </nav>
-  </header>
+  <script src = "{{ url_for('static',filename='nav.js')}}"></script>
+      <script>initNav('','');</script>
   <div class="signup-container"> <!-- containing the title,form,submit-btn and login page-->
     <h2>Create Account</h2>
     <form id="signupForm">

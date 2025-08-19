@@ -1,13 +1,14 @@
 let cartItemsEl;
 let totalEl;
-// Remove items from cart
+let total;
+
 function updateTotal() {
-    let total = 0;
+    total = 0;
     const prices = document.querySelectorAll(".cart-item .price");
     prices.forEach(price => {
-        total += parseFloat(price.textContent.replace("$", ""));
+        total += parseFloat(price.textContent.replace("EGP ", ""));
     });
-    document.querySelector(".total-price").textContent = `$${total.toFixed(2)}`;
+    document.querySelector(".total-price").textContent = `EGP ${total.toFixed(2)}`;
 }
 
 function removeItem(event) {
@@ -28,7 +29,7 @@ function removeItem(event) {
     console.log(cartItemsEl.children.length)
     if (cartItemsEl.children.length === 1) {
         cartItemsEl.innerHTML = `<h2 style="text-align:center; margin-top:20px;">Your cart is empty 🛒</h2>`;
-        totalEl.textContent = "$0.00";
+        totalEl.textContent = "EGP 0.00";
     }
 }
 
@@ -37,17 +38,17 @@ function initPage() {
     totalEl = document.querySelector(".total-price"); // element that shows total price
     if (cartItemsEl.children.length === 1) {
         cartItemsEl.innerHTML = `<h2 style="text-align:center; margin-top:20px;">Your cart is empty 🛒</h2>`;
-        totalEl.textContent = "$0.00";
+        totalEl.textContent = "EGP 0.00";
     }
     document.querySelectorAll(".remove-btn").forEach(btn => {
         btn.addEventListener("click", removeItem);
     });
 
     document.querySelector(".checkout-btn").addEventListener("click", () => {
-        let balanceEl = document.querySelector(".balance-amount");
+        let balanceEl = document.querySelector("#user-balance");
 
-        let balance = parseFloat(balanceEl.textContent.replace("$", ""));
-        let total = parseFloat(totalEl.textContent.replace("$", ""));
+        let balance = parseFloat(balanceEl.textContent.replace("EGP ", ""));
+        total = parseFloat(totalEl.textContent.replace("EGP ", ""));
 
         if (total === 0) {
             alert("Your cart is empty!");
@@ -56,23 +57,57 @@ function initPage() {
 
         if (balance >= total) {
             balance -= total;
-            balanceEl.textContent = `$${balance.toFixed(2)}`;
-            totalEl.textContent = "$0.00";
+            balanceEl.textContent = `EGP ${balance.toFixed(2)}`;
+            totalEl.textContent = "EGP 0.00";
             cartItemsEl.innerHTML = `<h2 style="text-align:center; margin-top:20px;">Your cart is empty 🛒</h2>`;
-            alert("Purchase successful! Enjoy your games 🎮");
-            checkout();
             selected = {
-                img_path: "all",
+                img_path: "all"
             };
 
-            fetch("/removeFromCart", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({selected})
+            checkout().then(() => {
+                return fetch("/removeFromCart", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ selected })
+                });
+            });
+            
+            let timerInterval;
+            Swal.fire({
+                title: "Purchase Successful!",
+                icon: "success",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
             })
         }
         else {
-            alert("Not enough balance to complete the purchase.");
+            let timerInterval;
+                    Swal.fire({
+                        title: "Not Enough Balance!",
+                        icon: "error",
+                        timer: 1500,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    })
         }
     });
 
@@ -82,45 +117,16 @@ function initPage() {
         const couponInput = document.querySelector("#coupon").value.trim();
 
         if (couponInput === "SAVE10") {
-            let total = parseFloat(document.querySelector(".total-price").textContent.replace("$", ""));
+            let total = parseFloat(document.querySelector(".total-price").textContent.replace("EGP ", ""));
             total = total * 0.9; // 10% off
-            document.querySelector(".total-price").textContent = `$${total.toFixed(2)}`;
+            document.querySelector(".total-price").textContent = `EGP ${total.toFixed(2)}`;
             alert("Coupon applied! 10% off your order.");
         }
         else {
             alert("Invalid coupon code.");
         }
     });
-
-    // Add funds
-
-    document.querySelector(".add-funds-btn").addEventListener("click", () => {
-        let balanceEl = document.querySelector(".balance-amount");
-        let balance = parseFloat(balanceEl.textContent.replace("$", ""));
-        let amountToAdd = parseFloat(document.querySelector(".funds-input").value);
-
-        if (!isNaN(amountToAdd) && amountToAdd > 0) {
-            balance += amountToAdd;
-            balanceEl.textContent = `$${balance.toFixed(2)}`;
-            document.querySelector(".funds-input").value = "";
-            alert(`$${amountToAdd.toFixed(2)} added successfully!`);
-        }
-        else {
-            alert("Please enter a valid amount greater than 0.");
-        }
-    });
-
-    if (activeUser == "") {
-        document.querySelector("nav").insertAdjacentHTML(
-                  "beforeend",
-                  "<input type='button' id='loginBtn' value='Log In/Sign Up' onclick=\"location.href='/login'\">"
-                );
-    }
-    else {
-        document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span> <input type="button" onclick="return false;" id = "logoutBtn" value="Log Out">`); // span is inline div
-    }
 }
-
 
 // Recommended games (dynamic)
 
@@ -150,7 +156,7 @@ function loadRecommendedGames() {
             <img src="${game.image}" alt="${game.name}">
             <div class="recommend-info">
                 <p>${game.name}</p>
-                <span>$${game.price.toFixed(2)}</span>
+                <span>EGP ${game.price.toFixed(2)}</span>
                 <a href="${game.link}" class="view-btn">View Game</a>
             </div>
         `;
@@ -159,15 +165,17 @@ function loadRecommendedGames() {
 }
 
 
-function checkout()
-{
-    fetch("/api/library/bulk", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ items: cart })
-            })
+function checkout() {
+    return fetch("/checkout", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            items: cart ,
+            total: total
+        })
+    })
 }
 
 document.addEventListener("DOMContentLoaded", () => {

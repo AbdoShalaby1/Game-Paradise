@@ -158,6 +158,10 @@
   border-radius: 6px;
 }
 
+.total-price
+{
+  font-size: 25px;
+}
 .coupon-section label 
 {
   display: block;
