@@ -20,9 +20,33 @@ function logout() {
 }
 
 
-function addBalance()
-{
-    window.location.href = '/addBalance';
+function addBalance() {
+    Swal.fire({
+        title: 'Add Balance',
+        text: 'Choose a payment method:',
+        icon: 'info',
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: 'Close',
+        html: `
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button id="visaBtn" class="swal2-confirm swal2-styled" style="background:#0d6efd;">💳 Visa</button>
+            <button id="cashBtn" class="swal2-confirm swal2-styled" style="background:#28a745;">📱 Vodafone / Etisalat / Orange Cash</button>
+            <button id="instapayBtn" class="swal2-confirm swal2-styled" style="background:#ff9800;">🏦 Instapay</button>
+          </div>
+        `,
+        didOpen: () => {
+            document.getElementById('visaBtn').addEventListener('click', () => {
+                Swal.fire('Visa Selected', 'Proceed with Visa payment.', 'success');
+            });
+            document.getElementById('cashBtn').addEventListener('click', () => {
+                Swal.fire('Cash Selected', 'Proceed with Vodafone/Etisalat/Orange Cash.', 'success');
+            });
+            document.getElementById('instapayBtn').addEventListener('click', () => {
+                Swal.fire('Instapay Selected', 'Proceed with Instapay payment.', 'success');
+            });
+        }
+    });
 }
 
 function initNav(searchBar = 'active', username = 'active') {
