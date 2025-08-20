@@ -61,7 +61,7 @@ function initPage() {
         const list = [selected];
 
         btn.addEventListener('click', () => {
-            if (activeUser != '') {
+            if (activeUser != '' && balance >= parseFloat(priceS)) {
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "Do you want to buy this game?",
@@ -105,6 +105,13 @@ function initPage() {
                             });
                     }
                 });
+            }
+            else if (balance < parseFloat(priceS)) {
+                Swal.fire(
+                    'Error!',
+                    'Insufficient Balance.',
+                    'error'
+                )
             }
             else {
                 window.location.href = '/login';
