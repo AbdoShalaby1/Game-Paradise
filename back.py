@@ -1,12 +1,14 @@
-from flask import Flask,render_template,request,jsonify,redirect,url_for,session
-from helper import get_game_trailer, get_db_connection, search_and_get_details, getGameData
+from flask import Flask,render_template,request,jsonify,redirect,url_for,session,abort
+from helper import get_game_trailer, get_db_connection, search_and_get_details, insertGameData, insert_game
 import sqlite3
-import requests
+from urllib.parse import urlparse
+import requests,os
 from PIL import Image
 import numpy as np
 app = Flask(__name__)
 
 app.secret_key = "d1f3a9b2c7e5f4a1d8b6c0e9"
+UPLOAD_FOLDER = "static/images"
 
 @app.context_processor
 def inject_user_data():
@@ -21,6 +23,8 @@ def home():
     conn = get_db_connection()
     games = conn.execute('SELECT * FROM all_games').fetchall()  # fetch all rows
     conn.close()
+    if session.get("activeUser","") == 'admin@game-paradise.com':
+            session["activeUser"] = ""
     return render_template("store.html",games=games,q="")
 
 
@@ -41,19 +45,25 @@ def searchAPI():
     data = request.get_json()
     game_name = data.get("game", "")
     games = search_and_get_details(game_name)
-    for g in games:
-        getGameData(g)
-    return ""
+    return games
     
-
-
+@app.route('/addToStore', methods = ['POST'])
+def addToStore():
+    appid = request.get_json().get("appid")
+    return insertGameData(appid)
+    
 @app.route('/search', methods=["POST","GET"])
 def search():
     conn = get_db_connection()
     game_name = request.args.get("q", "")
-    games = conn.execute('SELECT * FROM all_games WHERE name LIKE ?', ('%' + game_name + '%',)).fetchall()  # fetch all rows
-    conn.close()
-    return render_template("store.html",games=games,q=game_name)
+    if urlparse(request.referrer).path == '/':
+        games = conn.execute('SELECT * FROM all_games WHERE name LIKE ?', ('%' + game_name + '%',)).fetchall()  # fetch all rows
+        conn.close()
+        return render_template("store.html",games=games,q=game_name)
+    else:
+        return render_template('library.html',q=game_name)
+        
+    
 
 @app.route('/cart', methods=["POST","GET"])
 def show_cart():
@@ -73,7 +83,7 @@ def removeFromCart():
                 session.modified = True
                 return ""
     elif item['img_path'] == "all":
-        session['cart'] = []  
+        session['cart'].clear() 
         session.modified = True
         return ""
     return jsonify({"error": "No item"}), 400
@@ -104,23 +114,36 @@ def info():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    if session.get("activeUser") == "admin@game-paradise.com":
+        return render_template('admin.html')
+    else:
+        return abort(403)
 
 @app.route('/login', methods = ['POST','GET'])
 def login():
     if request.method == "POST":
         data = request.get_json()
+        if data.get("name", "") == "admin@game-paradise.com":
+            if data.get("password", "") == "5f57953354e5614695fb3be50860bb5e7be127b90b522b70b599454128a23699":
+                session['activeUser'] = "admin@game-paradise.com"
+                return "Admin"
+            else:
+                return "False"
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM users WHERE (name = ? OR email = ?) AND password = ?',(data.get("name", ""),data.get("name", ""),data.get("password", ""))).fetchone()
         conn.close()
-        if user:
+        if user and not user['banned']:
             session['activeUser'] = user['name']
             session['balance'] = user['balance']
             session['cart'] = []
             session.modified = True
             return "True"
+        elif user['banned']:
+            return "banned"
         else:
             return "False"
+    if session.get("activeUser","") == 'admin@game-paradise.com':
+        session["activeUser"] = ""
     return render_template('sign-in.html',link=request.referrer)
 
 @app.route('/register', methods = ['POST','GET'])
@@ -129,7 +152,7 @@ def signup():
         data = request.get_json()
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO users (name,email,password) VALUES (?,?,?)',(data['name'],data['email'],data['password']))
+            conn.execute('INSERT INTO users (name,email,password,banned) VALUES (?,?,?,0)',(data['name'],data['email'],data['password']))
             conn.commit()
             conn.close()
             return "True"
@@ -161,13 +184,14 @@ def library_page():
             
         """, (session.get('activeUser',""),)).fetchall()
         conn.close()
-        return render_template('library.html', items=rows)
+        return render_template('library.html', items=rows, q="")
     else:
         return render_template('sign-in.html',link='/library')
 
 @app.route('/api/library')
 def api_library():
     conn = get_db_connection()
+    q = request.args.get("q","")
     rows = conn.execute("""
         SELECT l.appid,
                COALESCE(g.name, l.name) AS name,
@@ -176,9 +200,9 @@ def api_library():
                
         FROM library l
         LEFT JOIN all_games g ON g.appid = l.appid
-        WHERE l.user = ?
+        WHERE l.user = ? AND COALESCE(g.name, l.name) LIKE ?
         
-    """, (session.get('activeUser',""),)).fetchall()
+    """, (session.get('activeUser',""),f"%{q}%",)).fetchall()
     conn.close()
     return jsonify([dict(r) for r in rows])
 
@@ -268,9 +292,121 @@ def checkout():
 @app.route('/gameplay', methods = ['POST'])
 def getGameplay():
     name = request.get_json('name')
-    return get_game_trailer(name,'Full Gameplay')
+    return get_game_trailer(name,'PC Gameplay')
 
 
+@app.route('/getUsers', methods = ['POST','GET'])
+def getUsers():
+    conn = get_db_connection()
+    users = conn.execute('SELECT email,name,banned FROM users').fetchall()
+    conn.close()
+    return jsonify([dict(u) for u in users]) # jsonify converts all to json
+    
+    
+@app.route('/ban', methods=['GET','POST'])
+def ban():
+    data = request.get_json()
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET banned = ? WHERE name = ?',(data.get("action"),data.get("name"),))
+    conn.commit()
+    conn.close()
+    return ""
+
+@app.route('/transactions', methods = ['POST','GET'])
+def trans():
+    conn = get_db_connection()
+    items = conn.execute('SELECT * FROM library').fetchall()
+    conn.close()
+    return jsonify([dict(u) for u in items]) # jsonify converts all to json
+
+@app.route('/allGames', methods = ['GET','POST'])
+def allGames():
+    conn = get_db_connection()
+    games = conn.execute('SELECT appid,name,price,img_path FROM all_games').fetchall()  # fetch all rows
+    conn.close()
+    return ([dict(u) for u in games])
+    
+    
+@app.route('/upload_game', methods=['POST'])
+def uploadGame():
+    # Validate required fields
+    if "cover" not in request.files or "appID" not in request.form or "name" not in request.form or "price" not in request.form:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    cover_file = request.files["cover"]
+    appID = request.form["appID"]
+
+    if not appID.isdigit():
+        return jsonify({"error": "Invalid appID"}), 400
+
+    # Save cover
+    cover_filename = f"{appID}.jpg"
+    cover_path = os.path.join(UPLOAD_FOLDER, cover_filename)
+    cover_file.save(cover_path)
+
+    cover_path = f"images/{cover_filename}"
+    # Save screenshots (1 mandatory + 3 optional)
+    screenshots_saved = []
+    
+    for i in range(1, 5):
+        key = f"screenshot{i}"
+        if key in request.files:
+            screenshot_file = request.files[key]
+            if screenshot_file and screenshot_file.filename.strip() != "":
+                screenshot_filename = f"{appID}{i}.jpg"
+    
+                # Save to filesystem
+                save_path = os.path.join(UPLOAD_FOLDER, screenshot_filename)
+                screenshot_file.save(save_path)
+    
+                # Save relative path for DB
+                screenshots_saved.append(f"images/{screenshot_filename}")
+            elif i == 1:
+                # First screenshot is mandatory
+                return jsonify({"error": "screenshot1 is required"}), 400
+
+    # Prepare game data for DB insert
+    game_data = {
+        'appid': int(appID),
+        'name': request.form["name"],
+        'img_path': cover_path,
+        'price': float(request.form["price"]),
+        'rating': float(request.form.get("rating", 0)),
+        'genre1': request.form.get("genre1"),
+        'genre2': request.form.get("genre2"),
+        'description': request.form.get("description"),
+        'trademark': request.form.get("trademark"),
+        'min_requirements': request.form.get("min_requirements"),
+        'rec_requirements': request.form.get("rec_requirements"),
+        'langs': request.form.get("langs")
+    }
+    
+    game_data['screenshots'] = screenshots_saved
+
+    # Insert into database
+    insert_game(game_data)
+
+    return jsonify({
+        "success": True,
+        "cover": cover_filename,
+        "screenshots": screenshots_saved
+    })
+
+@app.route('/fixData', methods = ['GET','POST'])
+def fixData():
+    conn = get_db_connection()
+    data = request.get_json()
+    if data.get('mode') == 'fix':
+        for key in data.get('data'):
+            conn.execute(f'UPDATE all_games SET {key} = ? WHERE appid = ?',(data.get('data').get(key),data.get('appid'),))
+    else:
+        conn.execute('DELETE FROM all_games WHERE appid = ?',(data.get('appid'),))
+        conn.execute('DELETE FROM library WHERE appid = ?',(data.get('appid'),))
+        
+    conn.commit()
+    conn.close()
+    return ""
+    
 if __name__ == '__main__':
     app.run(debug=True)
  

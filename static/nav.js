@@ -28,7 +28,7 @@ function initNav(searchBar = 'active', username = 'active') {
                     </a>
                     <div id="searchDiv">
                         <form id="searchForm" action="/search" method="get">
-                            <input type="text" id="searchBox" placeholder="Search Store..." name="q" value="${q}">
+                            <input type="text" id="searchBox" placeholder="Search..." name="q" value="${q}">
             
                             <button type="submit" id="searchBtn" aria-label="Search">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

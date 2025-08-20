@@ -44,27 +44,35 @@ def get_steam_game_details(appid, country="us", language="en"):
     info = data[str(appid)]["data"]
     genres = info.get("genres", [])
     genre_list = [g.get("description") for g in genres[:2]]
-
+    pc_req = info.get("pc_requirements", {})
+    
+    if isinstance(pc_req, dict):
+        min_req = pc_req.get("minimum")
+        rec_req = pc_req.get("recommended") or pc_req.get("minimum")
+    else:
+        # it was a list or something else -> treat as None
+        min_req = None
+        rec_req = None
+        
     game_details = {
         "appid": info.get("steam_appid"),
         "name": info.get("name"),
         "type": info.get("type"),
-        "languages": info.get("supported_languages"),
+        "langs": info.get("supported_languages"),
         "price": info.get("price_overview", {}).get("final"),
         "header_image": info.get("header_image"),
-        "about_the_game": info.get("about_the_game"),
+        "description": info.get("about_the_game"),
         "trailer": info.get("movies"),
-        "min_requirements": info.get("pc_requirements")['minimum'],
-        "rec_requirements": (info.get("pc_requirements", {}).get("recommended")
-            or info.get("pc_requirements", {}).get("minimum")),
+        "min_requirements": min_req,
+        "rec_requirements": rec_req,
         "genre1": genre_list[0] if len(genre_list) > 0 else None,
         "genre2": genre_list[1] if len(genre_list) > 1 else "Single Player",
-        "trademark_text": info.get("legal_notice"),
+        "trademark": info.get("legal_notice"),
         "screenshots": [s.get("path_thumbnail") for s in info.get("screenshots", [])[:4]],
-        "score": (
+        "rating": (
             (reviewData["positive"] / (reviewData["positive"] + reviewData["negative"]) * 100)
             if (reviewData["positive"] + reviewData["negative"]) != 0
-            else (4 / 5) * 100  # default to 80%
+            else None
         )
         
     }
@@ -118,38 +126,58 @@ def get_game_trailer(game_name,type='Gameplay Trailer'):
         return None
     
     
-def getGameData(g):
-    print(f"{g['name']} - {g['price']}")
-    ans = input("Add to database? ")
-    if ans.lower() == "yes":
-        details = get_steam_game_details(g['appid'])  # get full game info
-        if details and all(bool(value) for value in details.values()):
-            conn = get_db_connection()
-            path = download_steam_image(details['header_image'], str(g['appid']) + ".jpg")
-            for idx,img in enumerate(details['screenshots']):
-                scrPath = download_steam_image(img, str(g['appid']) + str(idx) + ".jpg")
-                scrPath = scrPath.replace("\\", "/")[7:]
-                conn.execute(
-                    '''
-                    INSERT INTO screenshots (game_id,img_path)
-                    VALUES (?,?)
-                    ''',
-                    (g['appid'],scrPath)
-                )
-            genre2 = details.get("genre2")
-            path = path.replace("\\", "/")[7:]
+def insertGameData(appid):
+    details = get_steam_game_details(appid) 
+    if not details:
+        return ["details_missing"]
 
-            conn.execute(
-                '''
-                INSERT INTO all_games (
-                    appid,
-                    name,
-                    price,
-                    img_path,
-                    description,
-                    genre1,
-                    genre2,
-                    trademark,
+    required_fields = [
+        "appid",
+        "name",
+        "price",
+        "header_image", 
+        "screenshots", 
+        "description",
+        "genre1",
+        "genre2",
+        "trademark",
+        "rating",
+        "min_requirements",
+        "rec_requirements",
+        "langs"
+    ]
+
+    # Collect missing fields
+
+    conn = get_db_connection()
+    path = download_steam_image(details['header_image'], appid + ".jpg")
+
+    for idx, img in enumerate(details['screenshots']):
+        scrPath = download_steam_image(img, appid + str(idx) + ".jpg")
+        scrPath = scrPath.replace("\\", "/")[7:]
+        conn.execute(
+            '''
+            INSERT INTO screenshots (game_id,img_path)
+            VALUES (?,?)
+            ''',
+            (appid, scrPath)
+        )
+
+    path = path.replace("\\", "/")[7:]
+    genre2 = details.get("genre2")
+
+    try:
+        conn.execute(
+            '''
+            INSERT INTO all_games (
+                appid,
+                name,
+                price,
+                img_path,
+                description,
+                genre1,
+                genre2,
+                trademark,
                 rating,
                 min_requirements,
                 rec_requirements,
@@ -162,17 +190,59 @@ def getGameData(g):
                 details['name'],
                 details['price'],
                 path,
-                details.get('about_the_game'),
+                details.get('description'),
                 details.get('genre1'),
                 genre2,
-                details.get('trademark_text'),
-                details.get('score'),
+                details.get('trademark'),
+                details.get('rating'),
                 details.get('min_requirements'),
                 details.get('rec_requirements'),
-                details.get('languages')
-                )
+                details.get('langs')
             )
-            conn.commit()
-            conn.close()
-        else:
-            print("Incomplete data")
+        )
+
+        conn.commit()
+        missing = [field for field in required_fields if not details.get(field)]
+        if missing:
+            return missing
+        return []
+    except:
+        conn.close()
+        return ["Exists already!"]
+    
+    
+    
+    
+def insert_game(game_data):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO all_games (
+            appid, name, img_path, price, rating, genre1, genre2, 
+            description, trademark, min_requirements, rec_requirements, 
+            langs, trailer
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        game_data['appid'],
+        game_data['name'],
+        game_data['img_path'],
+        game_data['price'],
+        game_data.get('rating'),
+        game_data.get('genre1'),
+        game_data.get('genre2'),
+        game_data.get('description'),
+        game_data.get('trademark'),
+        game_data.get('min_requirements'),
+        game_data.get('rec_requirements'),
+        game_data.get('langs')
+    ))
+    
+    screenshots = game_data.get('screenshots', [])
+    for screenshot_path in screenshots:
+        cursor.execute("""
+            INSERT INTO screenshots (game_id, img_path)
+            VALUES (?, ?)
+        """, (game_data['appid'], screenshot_path))
+        
+    conn.commit()
+    conn.close()

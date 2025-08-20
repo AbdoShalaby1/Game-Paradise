@@ -61,49 +61,56 @@ function initPage() {
         const list = [selected];
 
         btn.addEventListener('click', () => {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to buy this game?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, buy it!',
-                cancelButtonText: 'No, cancel',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch("/checkout", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            items: list,
-                            total: parseFloat(priceS)
+            if (activeUser != '') {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to buy this game?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, buy it!',
+                    cancelButtonText: 'No, cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/checkout", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                items: list,
+                                total: parseFloat(priceS)
+                            })
                         })
-                    })
-                        .then(() => {
-                            return fetch("/removeFromCart", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    selected: { img_path: url.pathname }
-                                })
+                            .then(() => {
+                                return fetch("/removeFromCart", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        selected: { img_path: url.pathname }
+                                    })
+                                });
+                            })
+                            .then(() => {
+                                Swal.fire(
+                                    'Purchased!',
+                                    'The game has been added to your library.',
+                                    'success'
+                                ).then(() => {
+                                    // reload after user sees the success popup
+                                    window.location.reload();
+                                });
+                            })
+                            .catch(err => {
+                                Swal.fire("Error", "Something went wrong during checkout!", "error");
+                                console.error(err);
                             });
-                        })
-                        .then(() => {
-                            Swal.fire(
-                                'Purchased!',
-                                'The game has been added to your library.',
-                                'success'
-                            ).then(() => {
-                                // reload after user sees the success popup
-                                window.location.reload();
-                            });
-                        })
-                        .catch(err => {
-                            Swal.fire("Error", "Something went wrong during checkout!", "error");
-                            console.error(err);
-                        });
-                }
-            });
+                    }
+                });
+            }
+            else
+            {
+                window.location.href = '/login';
+            }
+
         });
 
     }
@@ -128,7 +135,7 @@ function initPage() {
                 })
                     .then(res => res.text())
                     .then(data => {
-                        window.location.href = "https://www.youtube.com/embed/" + data + "?autoplay=1";
+                        window.location.href = "https://www.youtube.com/watch?v=" + data + "?autoplay=1?fullscreen=1";
                     })
             } else {
                 let timerInterval;

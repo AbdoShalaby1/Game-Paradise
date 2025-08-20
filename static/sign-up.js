@@ -21,7 +21,7 @@ function initPage() {
 
         // Email validation by regex
         const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-        if (!email.value.match(emailPattern)) {
+        if (!email.value.match(emailPattern) || email.value == "admin@game-paradise.com") {
             emailError.style.display = "block";
             valid = false;
         } else {

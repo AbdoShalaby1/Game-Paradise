@@ -53,7 +53,7 @@ function bindActions(container) {
         })
           .then(res => res.text())
           .then(data => {
-            window.location.href = "https://www.youtube.com/embed/" + data + "?autoplay=1";
+            window.location.href = "https://www.youtube.com/watch?v=" + data + "?autoplay=1?fullscreen=1";
           })
       } else {
         let timerInterval;
@@ -104,9 +104,9 @@ async function loadLibrary() {
   const container = document.getElementById('library-list');
   container.innerHTML = '<div class="empty">Loading your library…</div>';
   try {
-    const data = await fetchJSON('/api/library');
+    const data = await fetchJSON(`/api/library?q=${encodeURIComponent(q)}`);
     if (!data || data.length === 0) {
-      container.innerHTML = '<div class="empty">Your library is empty. Buy games to see them here.</div>';
+      container.innerHTML = '<div class="empty">No Matching Games.</div>';
       return;
     }
     // render cards

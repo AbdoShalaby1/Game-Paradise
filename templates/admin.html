@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xbox Games Admin Dashboard</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+  <link rel="stylesheet" href="static/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -13,8 +16,10 @@
     <nav>
       <ul>
         <li class="active" data-section="games">Manage Games</li>
+        <li data-section="orders">View Orders</li>
         <li data-section="users">Manage Users</li>
       </ul>
+      <button id="logoutBtn">Log Out</button>
     </nav>
   </aside>
 
@@ -23,55 +28,140 @@
     <header>
       <h1 id="sectionTitle">Manage Games</h1>
     </header>
+    <!-- Search to Add -->
 
     <!-- Games Section -->
     <section id="games" class="section active">
       <!-- Add / Modify -->
       <section class="card">
-        <h2 class="card-title">Add / Modify Game</h2>
-        <form class="form-grid">
-          <label class="field">
-            <span>Name</span>
-            <input type="text" id="gameName" placeholder="Game Name">
-          </label>
-          <label class="descField">
-            <span>Description</span>
-            <input type="text" id="gameDesc" placeholder="Game Description">
-          </label>
-          <label class="field">
-            <span>Price ($)</span>
-            <input type="number" id="gamePrice" placeholder="Price ($)">
-          </label>
-          <div class="form-actions">
-            <button type="reset" class="btn">Reset</button>
-            <button type="button" id="saveBtn" onclick="addGame()" class="btn primary">Save Game</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Search to Add -->
-      <section class="card">
-        <h2 class="card-title">Search to Add a Game</h2>
+        <h2 class="card-title">Search to Add a Game (Steam API)</h2>
         <div class="searchbar">
           <input type="text" id="searchGameName" placeholder="Search Game Name">
-          <button onclick="addSearchGame()" class="btn ghost">Search</button>
+          <button onclick="doSearch()" class="btn ghost" id="searchBtn">Search</button>
         </div>
-        <div id="searchResults"></div>
+        <div id="searchResults" class="hidden">
+        </div>
       </section>
+      <section class="card">
+        <h2 class="card-title">Add Game Manually</h2>
+        <div id="gameWizard" class="wizard">
 
+          <div class="step active">
+            <label for="gameName">Game Name</label>
+            <input type="text" id="gameName" required>
+
+            <label for="appID">App ID</label>
+            <input type="number" id="appID" required>
+
+            <label for="gamePrice">Price (cents)</label>
+            <input type="number" id="gamePrice" min="0" required>
+
+            <div class="button-row">
+              <button type="button" class="nextBtn btn">Next</button>
+            </div>
+          </div>
+
+          <div class="step">
+            <label for="gameCover" id="coverLabel">Select a game cover (Horizontal)</label>
+            <input type="file" id="gameCover" accept="image/*" required>
+
+            <div class="button-row">
+              <button type="button" class="backBtn btn">Back</button>
+              <button type="button" class="nextBtn btn">Next</button>
+            </div>
+          </div>
+
+          <div class="step">
+            <label for="screenshot1" id="coverLabel">Screenshot 1 (Required)</label>
+            <input type="file" id="screenshot1" accept="image/*" required>
+            <br>
+            <label for="screenshot2" id="coverLabel">Screenshot 2</label>
+            <input type="file" id="screenshot2" accept="image/*">
+            <br>
+            <label for="screenshot3" id="coverLabel">Screenshot 3</label>
+            <input type="file" id="screenshot3" accept="image/*">
+            <br>
+            <label for="screenshot4" id="coverLabel">Screenshot 4</label>
+            <input type="file" id="screenshot4" accept="image/*">
+            <br>
+            <div class="button-row">
+              <button type="button" class="backBtn btn">Back</button>
+              <button type="button" class="nextBtn btn">Next</button>
+            </div>
+          </div>
+
+          <div class="step">
+            <label for="gameVid">Game Trailer URL</label>
+            <input type="text" id="gameVid" required>
+            <br>
+            <label for="langs">Languages</label>
+            <input type="text" id="langs" required>
+
+            <div class="button-row">
+              <button type="button" class="backBtn btn">Back</button>
+              <button type="button" class="nextBtn btn">Next</button>
+            </div>
+          </div>
+
+          <div class="step">
+            <label for="gameRating">Rating (100)</label>
+            <input type="number" id="gameRating" required>
+            <br>
+            <label for="trademarkText">Trademark Text</label>
+            <textarea id="trademarkText" required></textarea>
+
+            <div class="button-row">
+              <button type="button" class="backBtn btn">Back</button>
+              <button type="button" class="nextBtn btn">Next</button>
+            </div>
+          </div>
+
+          <div class="step">
+            <label for="minReq">Minimum Requirements</label>
+            <textarea id="minReq" required></textarea>
+            <br>
+            <label for="recReq">Recommended Requirements</label>
+            <textarea id="recReq" required></textarea>
+
+            <div class="button-row">
+              <button type="button" class="backBtn btn">Back</button>
+              <button type="button" class="nextBtn btn">Next</button>
+            </div>
+          </div>
+
+          <div class="step">
+            <label for="gameDesc">Description</label>
+            <textarea id="gameDesc" required></textarea>
+            <br>
+            <label for="gameGenre1">Genre 1</label>
+            <input type="text" id="gameGenre1" required>
+            <br>
+            <label for="gameGenre2">Genre 2</label>
+            <input type="text" id="gameGenre2" required>
+
+            <div class="button-row">
+              <button type="button" class="backBtn btn">Back</button>
+              <button type="button" class="confirmBtn btn">Confirm</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      
+      
+      
       <!-- Game List -->
       <section class="card">
         <div class="table-header">
-          <h2 class="card-title">Games</h2>
+          <h2 class="card-title">Games in Store</h2>
         </div>
         <div class="table-wrap">
           <table class="table">
             <thead>
               <tr>
+                <th>Cover</th>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Price</th>
-                <th>Quantity</th>
                 <th style="width:120px">Actions</th>
               </tr>
             </thead>
@@ -80,21 +170,25 @@
           <!-- Empty State -->
           <div id="emptyState" class="empty-state" hidden>
             <p>No games yet.</p>
-            <button class="btn primary" onclick="document.getElementById('gameName').focus()">Add your first game</button>
+            <button class="btn primary" onclick="document.getElementById('gameName').focus()">Add your first
+              game</button>
           </div>
         </div>
       </section>
+      </section>
     </section>
+
+
+
 
     <!-- Orders Section -->
     <section id="orders" class="section">
       <table>
         <thead>
           <tr>
-            <th>Order ID</th>
+            <th>Username</th>
             <th>Game</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>Price</th>
           </tr>
         </thead>
         <tbody id="ordersList"></tbody>
@@ -106,7 +200,7 @@
       <table>
         <thead>
           <tr>
-            <th>User ID</th>
+            <th>User Mail</th>
             <th>Username</th>
             <th>Actions</th>
           </tr>
@@ -114,9 +208,8 @@
         <tbody id="usersList"></tbody>
       </table>
     </section>
-  </main>
 
-  <script src="{{url_for('static',filename='admin.js')}}"></script>
-  <script src="{{url_for('static',filename='nav.js')}}"></script>
+    <script src="static/admin.js"></script>
 </body>
+
 </html>

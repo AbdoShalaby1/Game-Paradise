@@ -28,9 +28,31 @@ function initPage() {
             txt => {
                 if (txt === "True") {
                     window.location.href = link
-                } else {
+                } else if (txt == "False") {
                     document.getElementById("password").setCustomValidity("❌ Wrong username or password");
                     document.getElementById("password").reportValidity();
+                }
+                else if (txt == "Admin") {
+                    window.location.href = "/admin"
+                }
+                else if (txt == "banned") {
+                    let timerInterval;
+                    Swal.fire({
+                        title: "You Have Been Banned!",
+                        icon: "error",
+                        timer: 1500,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    })
                 }
             });
     });
