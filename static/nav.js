@@ -236,8 +236,7 @@ function initNav(searchBar = 'active', username = 'active') {
             }
             else {
                 document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span>`); // span is inline div
-                document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="user-balance">EGP ${balance}</span>`);
-                document.querySelector("nav").insertAdjacentHTML("beforeend", `<input type="button" onclick="addBalance()" id="add-balance" value = "+">`);
+                document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="user-balance">EGP ${balance} <input type="button" onclick="addBalance()" id="add-balance" value = "+"></span>`);
                 document.querySelector("nav").insertAdjacentHTML("beforeend", `<input type="button" onclick="logout()" id = "logoutBtn" value="Log Out">`);
             }
         }
@@ -265,8 +264,7 @@ function initNav(searchBar = 'active', username = 'active') {
             }
             else {
                 document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="welcome">Welcome! ${activeUser} </span>`); // span is inline div
-                document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="user-balance">EGP ${balance}</span>`);
-                document.querySelector("nav").insertAdjacentHTML("beforeend", `<input type="button" onclick="addBalance()" id="add-balance" value = "+">`);
+                document.querySelector("nav").insertAdjacentHTML("beforeend", `<span id="user-balance">EGP ${balance} <input type="button" onclick="addBalance()" id="add-balance" value = "+"></span>`);
                 document.querySelector("nav").insertAdjacentHTML("beforeend", `<input type="button" onclick="logout()" id = "logoutBtn" value="Log Out">`);
             }
         }
