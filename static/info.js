@@ -43,7 +43,7 @@ function initPage() {
         document.querySelector("#info-container").insertAdjacentHTML("beforeend",
             `<button id="B">Buy Now</button>
                     <button class="A" onclick="addToCart()">Add To Cart</button>
-                    <button class="A">Add To Wishlist</button>`
+                    <button class="A" id="add-to-wishlist">Add To Wishlist</button>`
         )
         btn = document.querySelector('#B');
         let priceS = document.querySelector('p').textContent;
@@ -106,8 +106,7 @@ function initPage() {
                     }
                 });
             }
-            else
-            {
+            else {
                 window.location.href = '/login';
             }
 
@@ -173,6 +172,103 @@ function initPage() {
             }
         });
     }
+
+
+    const infoWishlistBtn = document.getElementById('add-to-wishlist');
+    if (infoWishlistBtn) {
+        infoWishlistBtn.addEventListener('click', function () {
+            let priceS = document.querySelector('p').textContent;
+            priceS = priceS.replace("EGP ", "")
+            let img_path = (window.getComputedStyle(document.querySelector('.image-swap')).getPropertyValue('background-image'))
+            img_path = img_path.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+            img_path = img_path.replace("/static", "");
+            let url = new URL(img_path);
+            params = new URLSearchParams(window.location.search);
+            let appid = params.get("appid");
+            let name = document.querySelector('h1').textContent;
+            price = parseFloat(priceS);
+            img_path = url.pathname;
+
+            addToWishlist({
+                appid,
+                name,
+                img_path,
+                price
+            });
+        });
+    }
+
+    function addToWishlist(item) {
+        if (!activeUser) {
+            let timerInterval;
+            Swal.fire({
+                title: "Log in first!",
+                icon: "warning",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            })
+            return;
+        }
+
+        fetch('/add_to_wishlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ item })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let timerInterval;
+                    Swal.fire({
+                        title: "Added to wishlist!",
+                        icon: "success",
+                        timer: 1500,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    })
+                } else if (data.error) {
+                    let timerInterval;
+                    Swal.fire({
+                        title: `Error: ${data.error}`,
+                        icon: "error",
+                        timer: 1500,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    })
+                }
+            });
+    }
+
 }
 
 function percentageToStars(percentage) {
@@ -257,5 +353,4 @@ async function addToCart() {
         })
     }
 }
-
 window.addEventListener('DOMContentLoaded', initPage);

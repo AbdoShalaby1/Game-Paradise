@@ -206,10 +206,6 @@ def api_library():
     conn.close()
     return jsonify([dict(r) for r in rows])
 
-@app.route('/wishlist',methods = ['GET','POST'])
-def wishlist():
-    return render_template('wishlist.html')
-
 @app.route('/add_funds', methods=['POST'])
 def add_funds():
     if 'activeUser' not in session:
@@ -281,6 +277,7 @@ def checkout():
                                 VALUES(?,?,?,?,?)""", (session.get('activeUser',""), appid, name, img_path, price))
                 if cur.rowcount:
                     added += cur.rowcount
+                cur.execute("DELETE FROM wishlist WHERE appid = ? AND user = ?",(appid,session['activeUser'],))
             except Exception:
                 pass
         conn.commit()
@@ -407,6 +404,66 @@ def fixData():
     conn.close()
     return ""
     
+    
+@app.route('/add_to_wishlist', methods=['POST'])
+def add_to_wishlist():
+    if 'activeUser' not in session:
+        return jsonify({'error': 'Not logged in'}), 401
+
+    item = request.json.get('item')
+    if not item:
+        return jsonify({'error': 'No item'}), 400
+
+    conn = get_db_connection()
+    try:
+        # Check if already in wishlist
+        existing = conn.execute('SELECT * FROM wishlist WHERE user = ? AND appid = ?', 
+                              (session['activeUser'], item['appid'])).fetchone()
+        if existing:
+            return jsonify({'error': 'Already in wishlist'}), 400
+
+        conn.execute('INSERT INTO wishlist (user, appid, name, img_path, price) VALUES (?, ?, ?, ?, ?)',
+                   (session['activeUser'], item['appid'], item['name'], item['img_path'], item['price']))
+        conn.commit()
+        return jsonify({'success': True})
+    finally:
+        conn.close()
+
+@app.route('/remove_from_wishlist', methods=['POST'])
+def remove_from_wishlist():
+    if 'activeUser' not in session:
+        return jsonify({'error': 'Not logged in'}), 401
+
+    appid = request.json.get('appid')
+    if not appid:
+        return jsonify({'error': 'No appid'}), 400
+
+    conn = get_db_connection()
+    try:
+        conn.execute('DELETE FROM wishlist WHERE user = ? AND appid = ?', 
+                   (session['activeUser'], appid,))
+        conn.commit()
+        return jsonify({'success': True})
+    finally:
+        conn.close()
+
+@app.route('/api/wishlist')
+def api_wishlist():
+    if 'activeUser' not in session:
+        return jsonify([]), 401
+
+    conn = get_db_connection()
+    rows = conn.execute('SELECT * FROM wishlist WHERE user = ?', (session['activeUser'],)).fetchall()
+    conn.close()
+    return jsonify([dict(r) for r in rows])
+
+@app.route('/wishlist')
+def wishlist_page():
+    if session.get('activeUser',"") != "":
+        return render_template("wishlist.html")
+    else:
+        return render_template('sign-in.html',link='/wishlist')
+
 if __name__ == '__main__':
     app.run(debug=True)
  

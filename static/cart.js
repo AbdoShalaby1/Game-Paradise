@@ -51,7 +51,23 @@ function initPage() {
         total = parseFloat(totalEl.textContent.replace("EGP ", ""));
 
         if (total === 0) {
-            alert("Your cart is empty!");
+            let timerInterval;
+            Swal.fire({
+                title: "Your cart is empty!",
+                icon: "error",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            })
             return;
         }
 
@@ -71,7 +87,7 @@ function initPage() {
                     body: JSON.stringify({ selected })
                 });
             });
-            
+
             let timerInterval;
             Swal.fire({
                 title: "Purchase Successful!",
@@ -92,22 +108,22 @@ function initPage() {
         }
         else {
             let timerInterval;
-                    Swal.fire({
-                        title: "Not Enough Balance!",
-                        icon: "error",
-                        timer: 1500,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading();
-                            const timer = Swal.getPopup().querySelector("b");
-                            timerInterval = setInterval(() => {
-                                timer.textContent = `${Swal.getTimerLeft()}`;
-                            }, 100);
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval);
-                        }
-                    })
+            Swal.fire({
+                title: "Not Enough Balance!",
+                icon: "error",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            })
         }
     });
 
@@ -120,10 +136,42 @@ function initPage() {
             let total = parseFloat(document.querySelector(".total-price").textContent.replace("EGP ", ""));
             total = total * 0.9; // 10% off
             document.querySelector(".total-price").textContent = `EGP ${total.toFixed(2)}`;
-            alert("Coupon applied! 10% off your order.");
+            let timerInterval;
+            Swal.fire({
+                title: "Coupon Applied, Enjoy 10% off!",
+                icon: "success",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            })
         }
         else {
-            alert("Invalid coupon code.");
+            let timerInterval;
+            Swal.fire({
+                title: "Invalid Coupon!",
+                icon: "error",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            })
         }
     });
 }
@@ -171,8 +219,8 @@ function checkout() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 
-            items: cart ,
+        body: JSON.stringify({
+            items: cart,
             total: total
         })
     })

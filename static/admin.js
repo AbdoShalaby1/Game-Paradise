@@ -51,32 +51,32 @@ function renderGames() {
 
 function deleteGame(index) {
     fetch("/fixData", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                mode : 'remove',
-                appid : games[index].appid
-            })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            mode: 'remove',
+            appid: games[index].appid
         })
-        let timerInterval;
-        Swal.fire({
-            title: "Success!",
-            icon: "success",
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: () => {
-                Swal.showLoading();
-                const timer = Swal.getPopup().querySelector("b");
-                timerInterval = setInterval(() => {
-                    timer.textContent = `${Swal.getTimerLeft()}`;
-                }, 100);
-            },
-            willClose: () => {
-                clearInterval(timerInterval);
-                window.location.reload();
-            }
-        })
-        renderGames();
+    })
+    let timerInterval;
+    Swal.fire({
+        title: "Success!",
+        icon: "success",
+        timer: 1500,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+                timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+        },
+        willClose: () => {
+            clearInterval(timerInterval);
+            window.location.reload();
+        }
+    })
+    renderGames();
 }
 
 
@@ -501,11 +501,43 @@ document.querySelector(".confirmBtn").addEventListener("click", async () => {
                 })
             } else {
                 console.error(data.error);
-                alert("Upload failed: " + data.error);
+                let timerInterval;
+                Swal.fire({
+                    title: `Error: ${data.error}`,
+                    icon: "error",
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                })
             }
         } catch (err) {
             console.error(err);
-            alert("Upload error!");
+            let timerInterval;
+            Swal.fire({
+                title: "Upload Error",
+                icon: "error",
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            })
         }
     }
     else {

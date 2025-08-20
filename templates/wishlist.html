@@ -1,45 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wishlist</title>
-    <link rel="stylesheet" href="static/wishlist.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="{{ url_for('static', filename='wishlist.js') }}"></script>
+    <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
+    <title>Game Paradise - Wishlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='store.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='wishlist.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>const activeUser = JSON.parse('{{ activeUser | tojson}}');</script>
+    <script>const balance = JSON.parse('{{ balance|round(2) | tojson}}');</script>
 </head>
 
 <body>
+    <script src="static/nav.js"></script>
+    <script>initNav('false');</script>
     <main>
-        <h1 style="font-size: 45px;">User name's Wishlist</h1>
-        <hr>
-        <div class="main-content">
-            <a href="#">
-                <div class="image" role="img" aria-label="Game-poster"></div>
-            </a>
-            <div class="Game-info">
-                <h2>Game name</h2>
-                <p>Overall Reviews:</p>
-                <p>Release Date:</p>
-            </div>
-            <div class="price-cart">
-                <p style="font-size: larger;">$00.00</p>
-                <button class="add">
-                    Add To Cart
-                </button>
-            </div>
-            <button class="remove" title="remove from wishlist">
-                ✕
-            </button>
+        <h1>Your Wishlist</h1>
+        <div class="wishlist-container">
+            <!-- Items will be loaded by JavaScript -->
         </div>
-
     </main>
-
     <footer>
-        <diV id="end">
-            <p>© 2025 Game Paradise. All rights reserved.</p>
-        </diV>
+        © 2025 Game Paradise. All rights reserved.
     </footer>
-    <script src="wishlist.js"></script>
 </body>
-<script src="static/wishlist.js"></script>
+
 </html>
