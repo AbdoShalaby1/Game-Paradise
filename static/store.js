@@ -55,7 +55,7 @@ function initPage() {
 
 
 function info(card) { // img_path is the unique id
-    const imgPath = card.querySelector('img').getAttribute('src').replace("/static/", "");
+    imgPath = card.querySelector('img').getAttribute('src').replace("/static/", "");
     window.location.href = `/info?appid=${encodeURIComponent(imgPath.slice(7,-4))}`;
 }
 

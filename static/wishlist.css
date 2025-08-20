@@ -23,6 +23,7 @@
     height: 100px;
     border-radius: 8px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .wishlist-item h3 {

@@ -37,13 +37,163 @@ function addBalance() {
         `,
         didOpen: () => {
             document.getElementById('visaBtn').addEventListener('click', () => {
-                Swal.fire('Visa Selected', 'Proceed with Visa payment.', 'success');
+                Swal.fire({
+                    title: 'Enter your Visa Number and Required amount to withdraw.',
+                    icon: 'info',
+                    html: `<input type="text" id="visaInput" class="swal2-input" placeholder="Enter Visa Card Number" style="margin-top:10px; border-radius:15px">
+                            <input type="number" id="amountInput" class="swal2-input" placeholder="Withdraw (EGP)" style="margin-top:10px; border-radius:15px">`,
+                    preConfirm: () => {
+                        const visa = Swal.getPopup().querySelector('#visaInput').value;
+                        const amount = Swal.getPopup().querySelector('#amountInput').value;
+                        if (!visa || !amount) {
+                            Swal.showValidationMessage(`Please enter both Visa number and amount`);
+                        }
+                        const visaPattern = /^4\d{12,18}$/;
+                        if (visaPattern.test(visa)) {
+                            if (amount > 0 && amount <= 10000) {
+                                fetch('/addBalance', {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(amount)
+                                }).then(response => {
+                                    return response.text();
+                                })
+                                    .then(() => {
+                                        let timerInterval;
+                                        Swal.fire({
+                                            title: "Success!",
+                                            icon: "success",
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                            didOpen: () => {
+                                                Swal.showLoading();
+                                                const timer = Swal.getPopup().querySelector("b");
+                                                timerInterval = setInterval(() => {
+                                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                                }, 100);
+                                            },
+                                            willClose: () => {
+                                                clearInterval(timerInterval);
+                                                window.location.reload();
+                                            }
+                                        })
+                                    })
+                            }
+                            else {
+                                Swal.showValidationMessage(`Invalid amount: (Max per transaction is EGP 10,000)`);
+                            }
+                        }
+                        else {
+                            Swal.showValidationMessage(`Invalid Visa number!`);
+                        }
+                    }
+                });
             });
             document.getElementById('cashBtn').addEventListener('click', () => {
-                Swal.fire('Cash Selected', 'Proceed with Vodafone/Etisalat/Orange Cash.', 'success');
+                Swal.fire({
+                    title: 'Enter your Phone Number and Required amount to withdraw.',
+                    icon: 'info',
+                    html: `<input type="text" id="visaInput" class="swal2-input" placeholder="Enter Phone Number" style="margin-top:10px; border-radius:15px">
+                                            <input type="number" id="amountInput" class="swal2-input" placeholder="Withdraw (EGP)" style="margin-top:10px; border-radius:15px">`,
+                    preConfirm: () => {
+                        const visa = Swal.getPopup().querySelector('#visaInput').value;
+                        const amount = Swal.getPopup().querySelector('#amountInput').value;
+                        if (!visa || !amount) {
+                            Swal.showValidationMessage(`Please enter both Phone number and amount`);
+                        }
+                        const visaPattern = /^01[0125]\d{8}$/;
+                        if (visaPattern.test(visa)) {
+                            if (amount > 0 && amount <= 10000) {
+                                fetch('/addBalance', {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(amount)
+                                }).then(response => {
+                                    return response.text();
+                                })
+                                    .then(() => {
+                                        let timerInterval;
+                                        Swal.fire({
+                                            title: "Success!",
+                                            icon: "success",
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                            didOpen: () => {
+                                                Swal.showLoading();
+                                                const timer = Swal.getPopup().querySelector("b");
+                                                timerInterval = setInterval(() => {
+                                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                                }, 100);
+                                            },
+                                            willClose: () => {
+                                                clearInterval(timerInterval);
+                                                window.location.reload();
+                                            }
+                                        })
+                                    })
+                            }
+                            else {
+                                Swal.showValidationMessage(`Invalid amount: (Max per transaction is EGP 10,000)`);
+                            }
+                        }
+                        else {
+                            Swal.showValidationMessage(`Invalid Phone Number!`);
+                        }
+                    }
+                });
             });
             document.getElementById('instapayBtn').addEventListener('click', () => {
-                Swal.fire('Instapay Selected', 'Proceed with Instapay payment.', 'success');
+                Swal.fire({
+                    title: 'Enter your Phone Number Linked to instapay and Required amount to withdraw.',
+                    icon: 'info',
+                    html: `<input type="text" id="visaInput" class="swal2-input" placeholder="Enter Phone Number" style="margin-top:10px; border-radius:15px">
+                                                            <input type="number" id="amountInput" class="swal2-input" placeholder="Withdraw (EGP)" style="margin-top:10px; border-radius:15px">`,
+                    preConfirm: () => {
+                        const visa = Swal.getPopup().querySelector('#visaInput').value;
+                        const amount = Swal.getPopup().querySelector('#amountInput').value;
+                        if (!visa || !amount) {
+                            Swal.showValidationMessage(`Please enter both Phone number and amount`);
+                        }
+                        const visaPattern = /^01[0125]\d{8}$/;
+                        if (visaPattern.test(visa)) {
+                            if (amount > 0 && amount <= 10000) {
+                                fetch('/addBalance', {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(amount)
+                                }).then(response => {
+                                    return response.text();
+                                })
+                                    .then(() => {
+                                        let timerInterval;
+                                        Swal.fire({
+                                            title: "Success!",
+                                            icon: "success",
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                            didOpen: () => {
+                                                Swal.showLoading();
+                                                const timer = Swal.getPopup().querySelector("b");
+                                                timerInterval = setInterval(() => {
+                                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                                }, 100);
+                                            },
+                                            willClose: () => {
+                                                clearInterval(timerInterval);
+                                                window.location.reload();
+                                            }
+                                        })
+                                    })
+                            }
+                            else {
+                                Swal.showValidationMessage(`Invalid amount: (Max per transaction is EGP 10,000)`);
+                            }
+                        }
+                        else {
+                            Swal.showValidationMessage(`Invalid Phone Number!`);
+                        }
+                    }
+                });
             });
         }
     });

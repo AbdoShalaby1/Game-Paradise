@@ -165,7 +165,8 @@ nav a:hover {
 }
 
 #loginBtn:hover,
-#logoutBtn:hover {
+#logoutBtn:hover,
+#add-balance:hover {
     background-color: #023e7e;
 }
 

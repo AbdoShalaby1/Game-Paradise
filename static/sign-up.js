@@ -38,38 +38,52 @@ function initPage() {
         }
         e.preventDefault();
 
-        if (valid)
-        {
+        if (valid) {
             async function hashPassword(password) {
                 const encoder = new TextEncoder();
                 const data = encoder.encode(password);
-        
+
                 const hashBuffer = await crypto.subtle.digest("SHA-256", data);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-        
+
                 return hashHex;
             }
 
             user =
             {
-                name : firstName.value.trim(),
-                email : email.value,
-                password : await hashPassword(password.value)
+                name: firstName.value.trim(),
+                email: email.value,
+                password: await hashPassword(password.value)
             }
             const response = await (await fetch("/register", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(user)
-                    })).text();
-            
-            if (response == 'True')
-            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(user)
+            })).text();
+
+            if (response == 'True') {
                 window.location.href = '/login';
             }
-            else
-            {
-                window.alert('Duplicate Data!');
+            else {
+                let timerInterval;
+                Swal.fire({
+                    title: "User Already Exists!",
+                    icon: "error",
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                        window.location.reload()
+                    }
+                })
             }
         }
     });

@@ -466,9 +466,15 @@ def wishlist_page():
         return render_template('sign-in.html',link='/wishlist')
 
 
-@app.route('/addBalance')
+@app.route('/addBalance', methods = ['POST'])
 def addBalance():
-        return ""
+    balance = float(request.get_json())
+    conn = get_db_connection()
+    conn.execute("UPDATE users SET balance = ? WHERE name = ?",(balance + session.get('balance'),session.get('activeUser'),))
+    conn.commit()
+    conn.close()
+    session['balance'] += balance
+    return ""
     
 if __name__ == '__main__':
     app.run(debug=True)

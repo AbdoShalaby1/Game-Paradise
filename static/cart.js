@@ -44,6 +44,15 @@ function initPage() {
         btn.addEventListener("click", removeItem);
     });
 
+    document.querySelectorAll(".cart-item").forEach(card => {
+                    const img = card.querySelector("img"); // get the image inside the card
+                    img.addEventListener("click", () => {
+                        let imgPath = img.getAttribute('src').replace("/static/", "");
+                        imgPath = imgPath.slice(8,-4)
+                        window.location.href = `/info?appid=${imgPath}`;
+                    });
+                });
+
     document.querySelector(".checkout-btn").addEventListener("click", () => {
         let balanceEl = document.querySelector("#user-balance");
 
@@ -128,11 +137,11 @@ function initPage() {
     });
 
     // Coupon system
-
+    
     document.querySelector(".apply-coupon-btn").addEventListener("click", () => {
         const couponInput = document.querySelector("#coupon").value.trim();
 
-        if (couponInput === "SAVE10") {
+        if (couponInput === "SAVE10" || couponInput === "DISCOUNT") {
             let total = parseFloat(document.querySelector(".total-price").textContent.replace("EGP ", ""));
             total = total * 0.9; // 10% off
             document.querySelector(".total-price").textContent = `EGP ${total.toFixed(2)}`;
@@ -173,42 +182,6 @@ function initPage() {
                 }
             })
         }
-    });
-}
-
-// Recommended games (dynamic)
-
-const recommendedGames = [
-    {
-        name: "Marvel Spider-Man",
-        price: 39.99,
-        image: "Images/Spider-Man_PS4_cover.jpg",
-        link: "#"
-    },
-    {
-        name: "Ghost of Tsushima",
-        price: 49.99,
-        image: "Images/Ghost_of_Tsushima.jpg",
-        link: "#"
-    }
-];
-
-function loadRecommendedGames() {
-    const recommendedRow = document.querySelector(".recommended-row");
-    recommendedRow.innerHTML = ""; // Clear existing
-
-    recommendedGames.forEach(game => {
-        const card = document.createElement("div");
-        card.classList.add("recommend-card");
-        card.innerHTML = `
-            <img src="${game.image}" alt="${game.name}">
-            <div class="recommend-info">
-                <p>${game.name}</p>
-                <span>EGP ${game.price.toFixed(2)}</span>
-                <a href="${game.link}" class="view-btn">View Game</a>
-            </div>
-        `;
-        recommendedRow.appendChild(card);
     });
 }
 
