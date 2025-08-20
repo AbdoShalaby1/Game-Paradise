@@ -1,0 +1,138 @@
+/* floating button  */
+#chatbot-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 65px;
+    height: 65px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #3498db, #860101);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        4px 4px 10px rgba(0, 0, 0, 0.3),
+        -4px -4px 10px rgba(255, 255, 255, 0.1),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+#chatbot-button:hover {
+    background: linear-gradient(145deg, #2980b9, #5b0101);
+    transform: translateY(-3px);
+    box-shadow:
+        6px 6px 14px rgba(0, 0, 0, 0.4),
+        -4px -4px 10px rgba(255, 255, 255, 0.2),
+        inset 2px 2px 8px rgba(255, 255, 255, 0.15);
+}
+
+#svgChat {
+    width: 30px;
+    height: 30px;
+}
+
+
+.chatbot-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    box-shadow: none;
+    filter: drop-shadow(-4px 0 10px rgba(0, 0, 0, 0.3));
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.chatbot-panel.open {
+    right: 0;
+}
+
+.cb-header {
+    background-color: #000927;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    border-radius: 20px 0 0 0;
+}
+
+.cb-controls button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 16px;
+}
+
+.cb-controls button:hover {
+    color: #56daff;
+}
+
+/* Messages */
+.cb-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 14px;
+    background: white;
+}
+
+.cb-message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    max-width: 80%;
+    line-height: 1.4;
+}
+
+.cb-message.user {
+    background: #0078d7;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.cb-message.bot {
+    background: #e5e7eb;
+    color: #333;
+    margin-right: auto;
+    text-align: left;
+}
+
+/* Input */
+.cb-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+.cb-input textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+.cb-input button {
+    padding: 0 16px;
+    border: none;
+    background: #000927;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.cb-input button:hover {
+    background: #004372;
+}

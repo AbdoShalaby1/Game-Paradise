@@ -27,7 +27,6 @@ def home():
             session["activeUser"] = ""
     return render_template("store.html",games=games,q="")
 
-
 @app.route('/add', methods = ["POST"])
 def add():
     if session.get('activeUser',"") != "":

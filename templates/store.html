@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="static/images/favicon.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="static/Chatbot.css">
     <script src="{{ url_for('static', filename='store.js') }}"></script>
     <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
     <title>Game Paradise</title>
@@ -13,7 +14,7 @@
     <script>
         const activeUser = JSON.parse('{{ activeUser | tojson}}');
         q = JSON.parse('{{ q | tojson}}');
-        balance = {{balance|round(2)}};
+        balance = {{ balance | round(2) }};
     </script>
 </head>
 
@@ -31,11 +32,11 @@
                             latest releases, timeless classics, and hidden gems across every genre. Whether you’re a
                             hardcore gamer or just starting your journey, our store is packed with exciting adventures,
                             thrilling challenges, and endless fun waiting for you.
-
+                            
                         </p>
                     </div>
                 </div>
-                <div class="slide"> 
+                <div class="slide">
                     <img src="{{ url_for('static', filename='images/fps.jpg') }}">
                     <div class="slideText">
                         <h1>Explore the Best FPS Games</h1>
@@ -47,104 +48,133 @@
                             hordes of
                             enemies, our curated collection of FPS titles offers something for every type of shooter
                             fan.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="slide">
-                    <img src="{{ url_for('static', filename='images/horror.jpg') }}">
-                    <div class="slideText">
-                        <h1>Explore the Best Horror Games</h1>
-                        <p>Dive into the world of horror games, where every shadow and sound keeps you on edge. From
-                            survival horror classics to modern psychological thrillers, these games put you in
-                            terrifying environments filled with dark secrets and lurking monsters. Solve puzzles, manage
-                            limited resources, and face the unknown as you experience adrenaline-filled moments that
-                            will make you think twice before turning off the lights.
-                        </p>
+                    <div class="slide">
+                        <img src="{{ url_for('static', filename='images/horror.jpg') }}">
+                        <div class="slideText">
+                            <h1>Explore the Best Horror Games</h1>
+                            <p>Dive into the world of horror games, where every shadow and sound keeps you on edge. From
+                                survival horror classics to modern psychological thrillers, these games put you in
+                                terrifying environments filled with dark secrets and lurking monsters. Solve puzzles, manage
+                                limited resources, and face the unknown as you experience adrenaline-filled moments that
+                                will make you think twice before turning off the lights.
+                            </p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="slide">
-                    <img src="{{ url_for('static', filename='images/rpg.png') }}">
-                    <div class="slideText">
-                        <h1>Explore the Best RPG Games</h1>
-                        <p>Step into the world of RPG games, where adventure, strategy, and storytelling come together.
-                            Explore vast lands, meet memorable characters, and make choices that shape your journey.
-                            Level up your skills, tackle challenging quests, and uncover hidden treasures as you immerse
-                            yourself in rich, dynamic worlds that reward curiosity and creativity.
-                        </p>
+                    
+                    <div class="slide">
+                        <img src="{{ url_for('static', filename='images/rpg.png') }}">
+                        <div class="slideText">
+                            <h1>Explore the Best RPG Games</h1>
+                            <p>Step into the world of RPG games, where adventure, strategy, and storytelling come together.
+                                Explore vast lands, meet memorable characters, and make choices that shape your journey.
+                                Level up your skills, tackle challenging quests, and uncover hidden treasures as you immerse
+                                yourself in rich, dynamic worlds that reward curiosity and creativity.
+                            </p>
+                        </div>
                     </div>
+                    
                 </div>
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
+            <div class="game-grid">
+                {% for game in games %}
+                <div class="game-card">
+                    <img src="{{ url_for('static', filename=game['img_path']) }}">
+                    <!-- ~ is used for concatenating strings (jinja flask)-->
+                    <h3>{{game['name']}}</h3>
+                    <h2>EGP {{((game['price'] / 300) * 48) | round(2)}}</h2>
+                </div>
+                {% endfor %}
+            </div>
+            <button id="chatbot-button" aria-haspopup="dialog">
+                <svg id = "svgChat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
+            </svg>
+        </button>
+        
+        <div>
+            <aside class="chatbot-panel" role="dialog">
+                <header class="cb-header">
+                    <div class="cb-controls">
+                        <button id="cb-close" class="cb-button">✕</button>
+                        <button id="cb-clear" class="cb-button">clear</button>
+                    </div>
+                    <h3> Game paradise assistant </h3>
+                </header>
                 
-            </div>
-            <button class="prev">&#10094;</button>
-            <button class="next">&#10095;</button>
+                <main class="cb-messages"></main>
+                
+                <form class="cb-input">
+                    <textarea id="cb-text" placeholder="Write Your Question"></textarea>
+                    <button class="send-btn" id="cb-send" type="submit">send</button>
+                </form>
+            </aside>
         </div>
-        <div class="game-grid">
-            {% for game in games %}
-            <div class="game-card">
-                <img src="{{ url_for('static', filename=game['img_path']) }}">
-                <!-- ~ is used for concatenating strings (jinja flask)-->
-                <h3>{{game['name']}}</h3>
-                <h2>EGP {{((game['price'] / 300) * 48) | round(2)}}</h2>
-            </div>
-            {% endfor %}
-        </div>
+        <script src="Chatbot.js"></script>
     </main>
     <footer>
-            <div id="bef-end">
-                <br>
-                <h2>Developers</h2>
-                <hr>
-                <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>GitHub</th>
-                        <th>LinkedIn</th>
-                        <th>Contribution</th>
-                    </tr>
-                    <tr>
-                        <td>Abdo A. Shalaby</td>
-                        <td><a href="mailto:abdoshalaby1977@gmail.com">abdoshalaby1977@gmail.com</a></td>
-                        <td><a href="https://github.com/AbdoShalaby1" target="_blank">github.com/AbdoShalaby1</a></td>
-                        <td><a href="https://www.linkedin.com/in/abdo-shalaby" target="_blank">linkedin.com/in/abdo-shalaby</a></td>
-                        <td>Core Development, Backend & Frontend</td>
-                    </tr>
-                    <tr>
-                        <td>Kareem Maged</td>
-                        <td><a href="mailto:kareem.maged2005@gmail.com">kareem.maged2005@gmail.com</a></td>
-                        <td><a href="https://github.com/Kareem-Maged" target="_blank">github.com/Kareem-Maged</a></td>
-                        <td><a href="https://www.linkedin.com/in/kareem-maged-89182b346"
-                                target="_blank">linkedin.com/in/kareem-maged-89182b346</a></td>
-                        <td>Backend & Frontend</td>
-                    </tr>
-                    <tr>
-                        <td>Youssef Abo Zahra</td>
-                        <td><a href="mailto:yousseifyasser9@gmail.com">yousseifyasser9@gmail.com</a></td>
-                        <td><a href="https://github.com/yousseif2005" target="_blank">github.com/yousseif2005</a></td>
-                        <td><a href="https://www.linkedin.com/in/abozahra" target="_blank">linkedin.com/in/abozahra</a></td>
-                        <td>Frontend</td>
-                    </tr>
-                    <tr>
-                        <td>Ahmed Amr</td>
-                        <td><a href="mailto:ahmedamrrashad@yahoo.com">ahmedamrrashad@yahoo.com</a></td>
-                        <td><a href="https://github.com/Ahm27" target="_blank">github.com/Ahm27</a></td>
-                        <td><a href="https://www.linkedin.com/in/ahmedamr" target="_blank">linkedin.com/in/ahmedamr</a></td>
-                        <td>Frontend</td>
-                    </tr>
-                    <tr>
-                        <td>Omar Mohamed</td>
-                        <td><a href="mailto:omar.m.mahmoud.06@gmail.com">omar.m.mahmoud.06@gmail.com</a></td>
-                        <td><a href="https://github.com/oMaR-M-M" target="_blank">github.com/oMaR-M-M</a></td>
-                        <td><a href="https://www.linkedin.com/in/omarmohamed"
-                                target="_blank">linkedin.com/in/omarmohamed</a></td>
+        <div id="bef-end">
+            <br>
+            <h2>Developers</h2>
+            <hr>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>GitHub</th>
+                    <th>LinkedIn</th>
+                    <th>Contribution</th>
+                </tr>
+                <tr>
+                    <td>Abdo A. Shalaby</td>
+                    <td><a href="mailto:abdoshalaby1977@gmail.com">abdoshalaby1977@gmail.com</a></td>
+                    <td><a href="https://github.com/AbdoShalaby1" target="_blank">AbdoShalaby1</a></td>
+                    <td><a href="https://www.linkedin.com/in/abdo-shalaby"
+                            target="_blank">abdo-shalaby</a></td>
+                    <td>Core Development, Backend & Frontend</td>
+                </tr>
+                <tr>
+                    <td>Kareem Maged</td>
+                    <td><a href="mailto:kareem.maged2005@gmail.com">kareem.maged2005@gmail.com</a></td>
+                    <td><a href="https://github.com/Kareem-Maged" target="_blank">Kareem-Maged</a></td>
+                    <td><a href="https://www.linkedin.com/in/kareem-maged-89182b346"
+                        target="_blank">kareem-maged-89182b346</a></td>
+                    <td>Backend & Frontend</td>
+                </tr>
+                <tr>
+                    <td>Youssef Abo Zahra</td>
+                    <td><a href="mailto:yousseifyasser9@gmail.com">yousseifyasser9@gmail.com</a></td>
+                    <td><a href="https://github.com/yousseif2005" target="_blank">yousseif2005</a></td>
+                    <td><a href="https://www.linkedin.com/in/abozahra" target="_blank">abozahra</a></td>
+                    <td>Frontend</td>
+                </tr>
+                <tr>
+                    <td>Ahmed Amr</td>
+                    <td><a href="mailto:ahmedamrrashad@yahoo.com">ahmedamrrashad@yahoo.com</a></td>
+                    <td><a href="https://github.com/Ahm27" target="_blank">Ahm27</a></td>
+                    <td><a href="https://www.linkedin.com/in/ahmedamr" target="_blank">ahmedamr</a></td>
+                    <td>Frontend</td>
+                </tr>
+                <tr>
+                    <td>Omar Mohamed</td>
+                    <td><a href="mailto:omar.m.mahmoud.06@gmail.com">omar.m.mahmoud.06@gmail.com</a></td>
+                    <td><a href="https://github.com/oMaR-M-M" target="_blank">oMaR-M-M</a></td>
+                    <td><a href="https://www.linkedin.com/in/omarmohamed"
+                        target="_blank">omarmohamed</a></td>
                         <td>Frontend</td>
                     </tr>
                 </table>
             </div>
-    
+            
             <div id="end">
                 <span>© 2025 Game Paradise. All rights reserved.</span>
             </div>
         </footer>
-</body>
-</html>
+    </body>
+    <script src="static/Chatbot.js"></script>
+    
+    </html>
