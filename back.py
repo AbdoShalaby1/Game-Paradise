@@ -138,7 +138,7 @@ def login():
             session['cart'] = []
             session.modified = True
             return "True"
-        elif user['banned']:
+        elif user and user['banned']:
             return "banned"
         else:
             return "False"
