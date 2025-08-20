@@ -1,7 +1,7 @@
 let cartItemsEl;
 let totalEl;
 let total;
-
+let usedCoupon = 0
 function updateTotal() {
     total = 0;
     const prices = document.querySelectorAll(".cart-item .price");
@@ -45,13 +45,13 @@ function initPage() {
     });
 
     document.querySelectorAll(".cart-item").forEach(card => {
-                    const img = card.querySelector("img"); // get the image inside the card
-                    img.addEventListener("click", () => {
-                        let imgPath = img.getAttribute('src').replace("/static/", "");
-                        imgPath = imgPath.slice(8,-4)
-                        window.location.href = `/info?appid=${imgPath}`;
-                    });
-                });
+        const img = card.querySelector("img"); // get the image inside the card
+        img.addEventListener("click", () => {
+            let imgPath = img.getAttribute('src').replace("/static/", "");
+            imgPath = imgPath.slice(8, -4)
+            window.location.href = `/info?appid=${imgPath}`;
+        });
+    });
 
     document.querySelector(".checkout-btn").addEventListener("click", () => {
         let balanceEl = document.querySelector("#user-balance");
@@ -137,36 +137,57 @@ function initPage() {
     });
 
     // Coupon system
-    
+
     document.querySelector(".apply-coupon-btn").addEventListener("click", () => {
         const couponInput = document.querySelector("#coupon").value.trim();
-
-        if (couponInput === "SAVE10" || couponInput === "DISCOUNT") {
-            let total = parseFloat(document.querySelector(".total-price").textContent.replace("EGP ", ""));
-            total = total * 0.9; // 10% off
-            document.querySelector(".total-price").textContent = `EGP ${total.toFixed(2)}`;
-            let timerInterval;
-            Swal.fire({
-                title: "Coupon Applied, Enjoy 10% off!",
-                icon: "success",
-                timer: 1500,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                    }, 100);
-                },
-                willClose: () => {
-                    clearInterval(timerInterval);
-                }
-            })
+        if (!usedCoupon) {
+            if (couponInput === "SAVE10" || couponInput === "DISCOUNT") {
+                let total = parseFloat(document.querySelector(".total-price").textContent.replace("EGP ", ""));
+                total = total * 0.9; // 10% off
+                usedCoupon = 1;
+                document.querySelector(".total-price").textContent = `EGP ${total.toFixed(2)}`;
+                let timerInterval;
+                Swal.fire({
+                    title: "Coupon Applied, Enjoy 10% off!",
+                    icon: "success",
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                })
+            }
+            else {
+                let timerInterval;
+                Swal.fire({
+                    title: "Invalid Coupon!",
+                    icon: "error",
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                })
+            }
         }
         else {
             let timerInterval;
             Swal.fire({
-                title: "Invalid Coupon!",
+                title: "You can use at most 1 coupon with each purchase!",
                 icon: "error",
                 timer: 1500,
                 timerProgressBar: true,

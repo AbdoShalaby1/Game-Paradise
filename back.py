@@ -207,31 +207,6 @@ def api_library():
     conn.close()
     return jsonify([dict(r) for r in rows])
 
-@app.route('/add_funds', methods=['POST'])
-def add_funds():
-    if 'activeUser' not in session:
-        return jsonify({'error': 'Not logged in'}), 401
-        
-    amount = request.json.get('amount')
-    if not amount or amount <= 0:
-        return jsonify({'error': 'Invalid amount'}), 400
-        
-    conn = get_db_connection()
-    try:
-        # Update balance in database
-        conn.execute('UPDATE users SET balance = balance + ? WHERE name = ?', 
-                    (amount, session['activeUser']))
-        conn.commit()
-        
-        # Get updated balance
-        new_balance = conn.execute('SELECT balance FROM users WHERE name = ?', 
-                                  (session['activeUser'],)).fetchone()['balance']
-        session['balance'] = float(new_balance)
-        session.modified = True
-        return jsonify({'new_balance': session['balance']})
-    finally:
-        conn.close()
-
 @app.route('/checkout', methods=['POST'])
 def checkout():
     if 'activeUser' not in session:
@@ -470,10 +445,13 @@ def wishlist_page():
 def addBalance():
     balance = float(request.get_json())
     conn = get_db_connection()
-    conn.execute("UPDATE users SET balance = ? WHERE name = ?",(balance + session.get('balance'),session.get('activeUser'),))
+    newBalance = balance + session.get('balance')
+    if (newBalance > 999999):
+        newBalance = 999999
+    conn.execute("UPDATE users SET balance = ? WHERE name = ?",(newBalance,session.get('activeUser'),))
     conn.commit()
     conn.close()
-    session['balance'] += balance
+    session['balance'] = newBalance
     return ""
     
 if __name__ == '__main__':

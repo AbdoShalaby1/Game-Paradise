@@ -330,3 +330,63 @@ footer {
     border-top: 1px solid #36393e;
     color: #999999;
 }
+
+
+#bef-end hr {
+    border: none;
+    width: 90%;
+    height: 2px;
+    background-color: black;
+    margin: 20px 0px 0px 60px;
+}
+
+#bef-end h2 {
+    color: white;
+    text-align: center;
+    margin: 0px 0px 0px 60px
+}
+
+
+#bef-end {
+    background-color: #36393e;
+    background-image: url("");
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-size: 30%;
+}
+
+#bef-end a {
+    text-decoration: none;
+    color: rgb(169, 168, 168);
+}
+
+#bef-end a:hover {
+    text-decoration: none;
+    color: #0e7eef;
+}
+
+#bef-end table {
+    width: 100%;
+    text-align: left;
+    padding: 2%;
+}
+
+#bef-end th {
+    color: white;
+    padding-bottom: 10px;
+    font-size: 25px;
+}
+
+#bef-end td {
+    padding-bottom: 5px;
+}
+
+
+#end {
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 16px;
+    font-size: 15px;
+    border-top: 1px solid #36393e;
+    color: #999999;
+}

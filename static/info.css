@@ -235,6 +235,7 @@ button:not(#searchBtn) {
 
 #bef-end h2 {
     color: white;
+    text-align: center;
     margin: 0px 0px 0px 60px
 }
 
@@ -258,7 +259,7 @@ button:not(#searchBtn) {
 }
 
 #bef-end table {
-    width: 80%;
+    width: 100%;
     text-align: left;
     padding: 2%;
 }

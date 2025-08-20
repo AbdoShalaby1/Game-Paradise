@@ -62,8 +62,9 @@ function addBalance() {
                                         let timerInterval;
                                         Swal.fire({
                                             title: "Success!",
+                                            text: "Please note that the max amount your account can hold is EGP 999,999, If you added more than the rest will return to your account!",
                                             icon: "success",
-                                            timer: 1500,
+                                            timer: 2000,
                                             timerProgressBar: true,
                                             didOpen: () => {
                                                 Swal.showLoading();
@@ -115,8 +116,9 @@ function addBalance() {
                                         let timerInterval;
                                         Swal.fire({
                                             title: "Success!",
+                                            text: "Please note that the max amount your account can hold is EGP 999,999, If you added more than the rest will return to your account!",
                                             icon: "success",
-                                            timer: 1500,
+                                            timer: 2000,
                                             timerProgressBar: true,
                                             didOpen: () => {
                                                 Swal.showLoading();
@@ -168,8 +170,9 @@ function addBalance() {
                                         let timerInterval;
                                         Swal.fire({
                                             title: "Success!",
+                                            text: "Please note that the max amount your account can hold is EGP 999,999, If you added more than the rest will return to your account!",
                                             icon: "success",
-                                            timer: 1500,
+                                            timer: 2000,
                                             timerProgressBar: true,
                                             didOpen: () => {
                                                 Swal.showLoading();

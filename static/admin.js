@@ -309,6 +309,26 @@ function addGame(appid) {
                     }
                 })
             }
+            else if (missing[0] == 'details_missing') {
+                let timerInterval;
+                Swal.fire({
+                    title: "Game Data is missing (Add it manually instead)!",
+                    icon: "error",
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                        window.location.reload()
+                    }
+                })
+            }
             else {
                 function isNumberField(field) {
                     // Treat these as numeric

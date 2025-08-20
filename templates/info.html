@@ -12,18 +12,18 @@
     <script src="https://kit.fontawesome.com/fd17ad0fed.js" crossorigin="anonymous"></script>
     <script>
         const activeUser = JSON.parse('{{ activeUser | tojson}}');
-        q="";
-        balance = {{balance|round(2)}};
-        owned = {{owned | tojson}};
-        gameName = {{game['name'] | tojson}};
+        q = "";
+        balance = {{ balance | round(2) }};
+        owned = {{ owned | tojson }};
+        gameName = {{ game['name'] | tojson }};
     </script>
     <script src="{{ url_for('static', filename='info.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <script src = "{{ url_for('static',filename='nav.js')}}"></script>
-    <script>initNav('active','active');</script>
+    <script src="{{ url_for('static',filename='nav.js')}}"></script>
+    <script>initNav('active', 'active');</script>
     <div id="main">
         <div id="upper-part">
             <br><br>
@@ -40,17 +40,13 @@
             <hr>
             <div id="cont-wrapper">
                 <div id="screenshots">
-                    <iframe id="screenshot-video" 
-                                width="500" 
-                                height="281" 
-                                src="https://www.youtube.com/embed/{{trailer}}?autoplay=1&mute=1&controls=1" 
-                                frameborder="0" 
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                allowfullscreen>
-                        </iframe>
+                    <iframe id="screenshot-video" width="500" height="281"
+                        src="https://www.youtube.com/embed/{{trailer}}?autoplay=1&mute=1&controls=1" frameborder="0"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                    </iframe>
 
                     <img id="screenshot-img" src="{{ url_for('static', filename=screenshots[0]['img_path']) }}"
-                    width="500">
+                        width="500">
                     <button class="prev">&#10094;</button>
                     <button class="next">&#10095;</button>
                 </div>
@@ -66,7 +62,7 @@
                     <div class="image-swap" role="img" aria-label="template poster"
                         style="background-image: url('{{ url_for('static', filename=game['img_path']) }}');"></div>
                     <p>EGP {{((game['price'] / 300) * 48) | round(2)}}</p>
-                    
+
                 </div>
             </div>
 
@@ -111,59 +107,70 @@
             <span>{{game['trademark'] | safe}}</span>
         </div>
 
-        <p style="text-align: center; margin: 0%;">WE ARE BETTER THAN THE WATER GAS AND RARE GAMES</p>
+        <p style="text-align: center; margin: 0%;">Best Regards to Water Gas and Legendary Games :)</p>
     </div>
 
 
     <footer>
         <div id="bef-end">
             <br>
-            <h2>STORE</h2>
+            <h2>Developers</h2>
             <hr>
             <table>
                 <tr>
-                    <th>Games</th>
-                    <th>Developers</th>
-                    <th>Tools</th>
-                    <th>Company</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>GitHub</th>
+                    <th>LinkedIn</th>
+                    <th>Contribution</th>
                 </tr>
                 <tr>
-                    <td><a href="#">Marvel’s Spider-Man</a></td>
-                    <td><a href="#">Abdo A.Shalaby</td>
-                    <td><a href="#">Unreal Engine</a></td>
-                    <td><a href="#">About</a></td>
+                    <td>Abdo A. Shalaby</td>
+                    <td><a href="mailto:abdoshalaby1977@gmail.com">abdoshalaby1977@gmail.com</a></td>
+                    <td><a href="https://github.com/AbdoShalaby1" target="_blank">github.com/AbdoShalaby1</a></td>
+                    <td><a href="https://www.linkedin.com/in/abdo-shalaby" target="_blank">linkedin.com/in/abdo-shalaby</a></td>
+                    <td>Core Development, Backend & Frontend</td>
                 </tr>
                 <tr>
-                    <td><a href="#">Rematch</a></td>
-                    <td><a href="#">Kareem Maged</td>
-                    <td><a href="#">UFEN</a></td>
-                    <td><a href="#">Newsroom</a></td>
+                    <td>Kareem Maged</td>
+                    <td><a href="mailto:kareem.maged2005@gmail.com">kareem.maged2005@gmail.com</a></td>
+                    <td><a href="https://github.com/Kareem-Maged" target="_blank">github.com/Kareem-Maged</a></td>
+                    <td><a href="https://www.linkedin.com/in/kareem-maged-89182b346"
+                            target="_blank">linkedin.com/in/kareem-maged-89182b346</a></td>
+                    <td>Backend & Frontend</td>
                 </tr>
                 <tr>
-                    <td><a href="#">Call of Duty®</a></td>
-                    <td><a href="#">Abo Zahra</td>
-                    <td><a href="#">MetaHuman</a></td>
-                    <td><a href="#">Careers</a></td>
+                    <td>Youssef Abo Zahra</td>
+                    <td><a href="mailto:yousseifyasser9@gmail.com">yousseifyasser9@gmail.com</a></td>
+                    <td><a href="https://github.com/yousseif2005" target="_blank">github.com/yousseif2005</a></td>
+                    <td><a href="https://www.linkedin.com/in/abozahra" target="_blank">linkedin.com/in/abozahra</a></td>
+                    <td>Frontend</td>
                 </tr>
                 <tr>
-                    <td><a href="#">Pubg Mobile</a></td>
-                    <td><a href="#">Ahmed Amr</td>
-                    <td><a href="#">Megascans</a></td>
-                    <td><a href="#">Students</a></td>
+                    <td>Ahmed Amr</td>
+                    <td><a href="mailto:ahmedamrrashad@yahoo.com">ahmedamrrashad@yahoo.com</a></td>
+                    <td><a href="https://github.com/Ahm27" target="_blank">github.com/Ahm27</a></td>
+                    <td><a href="https://www.linkedin.com/in/ahmedamr" target="_blank">linkedin.com/in/ahmedamr</a></td>
+                    <td>Frontend</td>
                 </tr>
                 <tr>
-                    <td><a href="#">Roct league</a></td>
-                    <td><a href="#">Omar Mohamed</td>
-                    <td><a href="#">Rad Game Tools</a></td>
-                    <td><a href="#">UX Research</a></td>
+                    <td>Omar Mohamed</td>
+                    <td><a href="mailto:omar.m.mahmoud.06@gmail.com">omar.m.mahmoud.06@gmail.com</a></td>
+                    <td><a href="https://github.com/oMaR-M-M" target="_blank">github.com/oMaR-M-M</a></td>
+                    <td><a href="https://www.linkedin.com/in/omarmohamed"
+                            target="_blank">linkedin.com/in/omarmohamed</a></td>
+                    <td>Frontend</td>
                 </tr>
             </table>
         </div>
 
-        <diV id="end">
+        <div id="end">
             <span>© 2025 Game Paradise. All rights reserved.</span>
-        </diV>
+        </div>
     </footer>
+
+
+
 
 </body>
 <script src="{{url_for('static',filename='nav.js')}}"></script>
