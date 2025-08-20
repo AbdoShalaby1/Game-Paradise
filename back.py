@@ -464,6 +464,11 @@ def wishlist_page():
     else:
         return render_template('sign-in.html',link='/wishlist')
 
+
+@app.route('/addBalance')
+def addBalance():
+        return ""
+    
 if __name__ == '__main__':
     app.run(debug=True)
  

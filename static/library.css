@@ -16,6 +16,18 @@
     transition: color 0.3s ease;
 }
 
+#add-balance
+{
+    border-radius: 8px;
+    margin-right: 7px;
+    font-size: 16px;
+    align-items: center;
+    background-color: #0056b3;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+}
+
 #brandName:hover {
     color: #074b94;
 }
@@ -137,13 +149,14 @@ nav a:hover {
 
 #user-balance {
     margin: 0 10px;
-    padding: 6px 9px;
+    margin-right: 0;
+    padding: 6px 4px;
     background-color: #4CAF50;
     border-radius: 20px;
     font-weight: bold;
     font-size: 14px;
     color: white;
-    max-width: 105px;
+    max-width: 90px;
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
