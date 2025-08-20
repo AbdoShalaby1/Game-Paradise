@@ -144,7 +144,7 @@ def login():
             return "False"
     if session.get("activeUser","") == 'admin@game-paradise.com':
         session["activeUser"] = ""
-    return render_template('sign-in.html',link=request.referrer)
+    return render_template('sign-in.html',link = '/' if request.referrer and 'register' in request.referrer else request.referrer)
 
 @app.route('/register', methods = ['POST','GET'])
 def signup():
@@ -152,11 +152,12 @@ def signup():
         data = request.get_json()
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO users (name,email,password,banned) VALUES (?,?,?,0)',(data['name'],data['email'],data['password']))
+            conn.execute('INSERT INTO users (name,email,password,banned,balance) VALUES (?,?,?,0,0)',(data['name'],data['email'],data['password']))
             conn.commit()
             conn.close()
             return "True"
-        except sqlite3.IntegrityError:
+        except sqlite3.IntegrityError as e:
+            print(e)
             return "False"
     return render_template('sign-up.html')
 
