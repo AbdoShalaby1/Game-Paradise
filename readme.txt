@@ -3,7 +3,7 @@ Python
 Flask
 Pillow
 Numpy
-openai
+Groq
 
 Run the app from back.py
 and type in the web browser: 127.0.0.1:5000
