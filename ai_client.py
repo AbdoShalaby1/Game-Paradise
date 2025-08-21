@@ -3,7 +3,7 @@ import os
 from groq import Groq
 
 # Set your Groq API key
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY","gsk_WyM7wAyAjDO9UprWzlq2WGdyb3FYAVJWcrCokuhv7aCZpI#REMOVED#".replace("#REMOVED#","DnIvNc")))
 
 # Default model (change as needed)
 MODEL = os.getenv("AI_MODEL", "llama3-8b-8192")
