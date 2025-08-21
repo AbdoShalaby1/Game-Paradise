@@ -31,7 +31,7 @@ function addBalance() {
         html: `
           <div style="display:flex; flex-direction:column; gap:10px;">
             <button id="visaBtn" class="swal2-confirm swal2-styled" style="background:#0d6efd;">💳 Visa</button>
-            <button id="cashBtn" class="swal2-confirm swal2-styled" style="background:#28a745;">📱 Vodafone / Etisalat / Orange Cash</button>
+            <button id="cashBtn" class="swal2-confirm swal2-styled" style="background:#28a745;">📱 Mobile Wallets</button>
             <button id="instapayBtn" class="swal2-confirm swal2-styled" style="background:#ff9800;">🏦 Instapay</button>
           </div>
         `,

@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request,jsonify,redirect,url_for,session,abort
 from helper import get_game_trailer, get_db_connection, search_and_get_details, insertGameData, insert_game
 import sqlite3
+from ai_service import run_ai_query
 from urllib.parse import urlparse
 import requests,os
 from PIL import Image
@@ -156,7 +157,7 @@ def signup():
             conn.close()
             return "True"
         except sqlite3.IntegrityError as e:
-            print(e)
+            conn.close()
             return "False"
     return render_template('sign-up.html')
 
@@ -264,7 +265,7 @@ def checkout():
 @app.route('/gameplay', methods = ['POST'])
 def getGameplay():
     name = request.get_json('name')
-    return get_game_trailer(name,'PC Gameplay')
+    return get_game_trailer(name,'gameplay')
 
 
 @app.route('/getUsers', methods = ['POST','GET'])
@@ -453,6 +454,15 @@ def addBalance():
     session['balance'] = newBalance
     return ""
     
+    
+@app.route("/ai_query", methods=["POST"])
+def ai_query_route():
+    payload = request.get_json(silent=True) or {}
+    user_message = (payload.get("message") or "").strip()
+    search_term = (payload.get("search") or "").strip()
+    result = run_ai_query(user_message, search_term)
+    return jsonify(result)
+
 if __name__ == '__main__':
     app.run(debug=True)
  

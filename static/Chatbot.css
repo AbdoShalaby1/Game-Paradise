@@ -136,3 +136,26 @@
 .cb-input button:hover {
     background: #004372;
 }
+
+.cb-message.bot table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.cb-message.bot th,
+.cb-message.bot td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.cb-message.bot th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.cb-message.bot tr:nth-child(even) {
+    background-color: #fafafa;
+}

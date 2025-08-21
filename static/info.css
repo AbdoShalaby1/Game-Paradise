@@ -13,11 +13,7 @@ header {
     border-bottom: 1px solid #36393e;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    color: white;
-}
+
 
 #main {
     background-image: linear-gradient(#7a181a, #000000);
@@ -140,7 +136,7 @@ body {
     font-weight: bold;
 }
 
-button:not(#searchBtn) {
+button:not(#searchBtn):not(#visaBtn):not(#cashBtn):not(#instapayBtn):not(.swal2-cancel) {
     border: none;
     width: 80%;
     border-radius: 5px;

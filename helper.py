@@ -104,8 +104,9 @@ def download_steam_image(url, filename=None):
         print("Error downloading image:", e)
         return None
                    
-def get_game_trailer(game_name,type='Gameplay Trailer'):
-    query = urllib.parse.quote(f"{game_name} {type}")
+def get_game_trailer(game_name,type='trailer'):
+    clean_name = re.sub(r'[\u2122\u00A9\u00AE]', '', game_name).lower()
+    query = urllib.parse.quote(f"{clean_name} {type}")
     url = f"https://www.youtube.com/results?search_query={query}"
 
     headers = {
@@ -234,7 +235,8 @@ def insert_game(game_data):
         game_data.get('trademark'),
         game_data.get('min_requirements'),
         game_data.get('rec_requirements'),
-        game_data.get('langs')
+        game_data.get('langs'),
+        game_data.get('trailer')
     ))
     
     screenshots = game_data.get('screenshots', [])

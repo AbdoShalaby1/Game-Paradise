@@ -13,7 +13,7 @@ let welcomeSent = false;
 function appendMessage(role, text) {
     const div = document.createElement('div');
     div.className = `cb-message ${role === 'user' ? 'user' : 'bot'}`;
-    div.textContent = text;
+    div.innerHTML = text;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -25,7 +25,7 @@ function openPanel() {
 
     if (!welcomeSent) {
         setTimeout(() => {
-            appendMessage('bot', '👋 Hello! I am your game assistant. How can I help you today?');
+            appendMessage('bot', '👋 Hello! I\'m your game assistant. How can I help you today?');
         }, 300);
         welcomeSent = true;
     }
@@ -51,7 +51,7 @@ closeBtn?.addEventListener('click', closePanel);
 clearBtn?.addEventListener('click', () => {
     messagesEl.innerHTML = '';
     setTimeout(() => {
-        appendMessage('bot', '👋 Hello! I am your game assistant. How can I help you today?');
+        appendMessage('bot', '👋 Hello! I\'m your game assistant. How can I help you today?');
     }, 300);
 });
 
@@ -62,10 +62,10 @@ async function sendMessage() {
     textarea.value = '';
     textarea.focus();
 
-    appendMessage('bot', 'please,wait.........');
+    appendMessage('bot', 'Please Wait.........');
 
     try {
-        const res = await fetch('http://localhost:5001/api/ai_query', {
+        const res = await fetch('/ai_query', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
@@ -86,7 +86,7 @@ async function sendMessage() {
         console.error(err);
         const botMsgs2 = document.querySelectorAll('.cb-message.bot');
         if (botMsgs2.length) botMsgs2[botMsgs2.length - 1].remove();
-        appendMessage('bot', 'The connection field with OpenAI');
+        appendMessage('bot', 'Connection Failed');
     }
 }
 
